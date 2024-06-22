@@ -278,3 +278,31 @@ export function fetchCart() {
     }
   };
 }
+
+// increment quantity
+
+export function incrementProductQuantity(productId) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.post('http://localhost:8888/api/v1/cart/increment', { productId });
+      dispatch(slice.actions.increaseQuantity(productId));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// decrement quantity
+
+export function decrementProductQuantity(productId) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.post('http://localhost:8888/api/v1/cart/decrement', { productId });
+      dispatch(slice.actions.decreaseQuantity(productId));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}

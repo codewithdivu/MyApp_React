@@ -42,7 +42,6 @@ CheckoutProductList.propTypes = {
 };
 
 export default function CheckoutProductList({ products, onDelete, onIncreaseQuantity, onDecreaseQuantity }) {
-  console.log('available :>> ', products?.available);
   return (
     <TableContainer sx={{ minWidth: 720 }}>
       <Table>

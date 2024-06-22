@@ -75,10 +75,10 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const { themeStretch } = useSettings();
   const { id } = useParams();
-  // const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const { product, isLoading, error, checkout } = useSelector((state) => state.product);
   console.log('checkout :>> ', checkout);
+
   useEffect(() => {
     dispatch(getProduct(id));
   }, [dispatch, id]);
@@ -109,7 +109,7 @@ const ProductDetails = () => {
       if (!alreadyProduct) {
         handleAddCart({
           ...product,
-          subtotal: product.price * data.quantity,
+          // subtotal: product.price * data.quantity,
           available: product.quantity,
           quantity: data.quantity,
         });
@@ -124,7 +124,7 @@ const ProductDetails = () => {
     try {
       handleAddCart({
         ...product,
-        subtotal: product.price * values.quantity,
+        // subtotal: product.price * values.quantity,
         available: product.quantity,
         quantity: values.quantity,
       });
