@@ -14,8 +14,10 @@ import {
   Divider,
   Button,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+import { useForm } from 'react-hook-form';
 import CartWidget from '../../sections/@dashboard/e-commerce/CartWidget';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import Page from '../../components/Page';
@@ -27,6 +29,8 @@ import Markdown from '../../components/Markdown';
 import Label from '../../components/Label';
 import { fCurrency } from '../../utils/formatNumber';
 import { ProductDetailsCarousel } from '../../sections/@dashboard/e-commerce/product-details';
+import { addCart, getProduct, getProducts } from '../../redux/slices/product';
+import { FormProvider } from '../../components/hook-form';
 
 const PRODUCT_DESCRIPTION = [
   {
@@ -68,29 +72,66 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 const ProductDetails = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const { themeStretch } = useSettings();
   const { id } = useParams();
-  const [product, setProduct] = useState({});
-  console.log('product :>> ', product);
-  const [isLoading, setIsLoading] = useState(false);
-
+  // const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { product, isLoading, error, checkout } = useSelector((state) => state.product);
+  console.log('checkout :>> ', checkout);
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        setIsLoading(true);
-        const res = await axios.get(`http://localhost:8888/api/v1/product/${id}`);
-        setProduct(res?.data?.data);
-        console.log('res :>> ', res?.data?.data);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
+    dispatch(getProduct(id));
+  }, [dispatch, id]);
+
+  const handleAddCart = (product) => {
+    dispatch(addCart(product));
+  };
+
+  const alreadyProduct = checkout.cart.map((item) => item._id).includes(id);
+
+  const isMaxQuantity =
+    checkout.cart.filter((item) => item._id === id).map((item) => item.quantity)[0] >= product?.quantity;
+
+  const defaultValues = {
+    quantity: product?.quantity < 1 ? 0 : 1,
+  };
+
+  const methods = useForm({
+    defaultValues,
+  });
+
+  const { watch, control, setValue, handleSubmit } = methods;
+
+  const values = watch();
+
+  const onSubmit = async (data) => {
+    try {
+      if (!alreadyProduct) {
+        handleAddCart({
+          ...product,
+          subtotal: product.price * data.quantity,
+          available: product.quantity,
+          quantity: data.quantity,
+        });
       }
-      setIsLoading(false);
-    };
-    if (id) {
-      fetchProduct();
+      navigate('/dashboard/checkout');
+    } catch (error) {
+      console.error(error);
     }
-  }, [id]);
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      handleAddCart({
+        ...product,
+        subtotal: product.price * values.quantity,
+        available: product.quantity,
+        quantity: values.quantity,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Page title="Products: Shop">
@@ -102,7 +143,7 @@ const ProductDetails = () => {
             { name: `${id}`, href: PATH_DASHBOARD.general.app },
           ]}
         />
-        {isLoading && product.length <= 0 ? (
+        {isLoading ? (
           <h1>Loading...</h1>
         ) : (
           <>
@@ -112,83 +153,85 @@ const ProductDetails = () => {
                   {product && product?.images?.length > 0 && <ProductDetailsCarousel product={product} />}
                 </Grid>
                 <Grid item xs={12} md={6} lg={5}>
-                  <RootStyle>
-                    <Label
-                      variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                      //   color={inventoryType === 'in_stock' ? 'success' : 'error'}
-                      sx={{ textTransform: 'uppercase' }}
-                    >
-                      NEW
-                    </Label>
-                    <Typography
-                      variant="overline"
-                      sx={{
-                        mt: 2,
-                        mb: 1,
-                        display: 'block',
-                        color: product?.status === 'sale' ? 'error.main' : 'info.main',
-                      }}
-                    >
-                      IN STOCK
-                    </Typography>
-                    <Typography variant="h5" paragraph>
-                      {product?.name}
-                    </Typography>
-
-                    <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
-                      <Rating value={4} precision={0.1} readOnly />
-                    </Stack>
-
-                    <Typography variant="h4" sx={{ mb: 3 }}>
-                      &nbsp;{fCurrency(product?.price)}
-                    </Typography>
-
-                    <Divider sx={{ borderStyle: 'dashed' }} />
-
-                    <Stack direction="row" justifyContent="space-between" sx={{ mb: 3, mt: 4 }}>
-                      <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-                        Quantity
+                  <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+                    <RootStyle>
+                      <Label
+                        variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                        //   color={inventoryType === 'in_stock' ? 'success' : 'error'}
+                        sx={{ textTransform: 'uppercase' }}
+                      >
+                        NEW
+                      </Label>
+                      <Typography
+                        variant="overline"
+                        sx={{
+                          mt: 2,
+                          mb: 1,
+                          display: 'block',
+                          color: product?.status === 'sale' ? 'error.main' : 'info.main',
+                        }}
+                      >
+                        IN STOCK
+                      </Typography>
+                      <Typography variant="h5" paragraph>
+                        {product?.name}
                       </Typography>
 
-                      <div>
-                        <Incrementer
-                          name="quantity"
-                          quantity={25}
-                          available={77}
-                          //   onIncrementQuantity={() => setValue('quantity', values.quantity + 1)}
-                          //   onDecrementQuantity={() => setValue('quantity', values.quantity - 1)}
-                        />
-                        <Typography
-                          variant="caption"
-                          component="div"
-                          sx={{ mt: 1, textAlign: 'right', color: 'text.secondary' }}
-                        >
-                          Available: {77}
+                      <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
+                        <Rating value={4} precision={0.1} readOnly />
+                      </Stack>
+
+                      <Typography variant="h4" sx={{ mb: 3 }}>
+                        &nbsp;{fCurrency(product?.price)}
+                      </Typography>
+
+                      <Divider sx={{ borderStyle: 'dashed' }} />
+
+                      <Stack direction="row" justifyContent="space-between" sx={{ mb: 3, mt: 4 }}>
+                        <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
+                          Quantity
                         </Typography>
-                      </div>
-                    </Stack>
 
-                    <Divider sx={{ borderStyle: 'dashed' }} />
+                        <div>
+                          <Incrementer
+                            name="quantity"
+                            quantity={values.quantity}
+                            available={product?.quantity}
+                            onIncrementQuantity={() => setValue('quantity', values.quantity + 1)}
+                            onDecrementQuantity={() => setValue('quantity', values.quantity - 1)}
+                          />
+                          <Typography
+                            variant="caption"
+                            component="div"
+                            sx={{ mt: 1, textAlign: 'right', color: 'text.secondary' }}
+                          >
+                            Available: {product?.quantity}
+                          </Typography>
+                        </div>
+                      </Stack>
 
-                    <Stack direction="row" spacing={2} sx={{ mt: 5 }}>
-                      <Button
-                        fullWidth
-                        // disabled={isMaxQuantity}
-                        size="large"
-                        color="warning"
-                        variant="contained"
-                        startIcon={<Iconify icon={'ic:round-add-shopping-cart'} />}
-                        // onClick={handleAddCart}
-                        sx={{ whiteSpace: 'nowrap' }}
-                      >
-                        Add to Cart
-                      </Button>
+                      <Divider sx={{ borderStyle: 'dashed' }} />
 
-                      <Button fullWidth size="large" type="submit" variant="contained">
-                        Buy Now
-                      </Button>
-                    </Stack>
-                  </RootStyle>
+                      <Stack direction="row" spacing={2} sx={{ mt: 5 }}>
+                        <Button
+                          fullWidth
+                          disabled={isMaxQuantity}
+                          size="large"
+                          color="warning"
+                          variant="contained"
+                          startIcon={<Iconify icon={'ic:round-add-shopping-cart'} />}
+                          onClick={handleAddToCart}
+                          sx={{ whiteSpace: 'nowrap' }}
+                        >
+                          Add to Cart
+                        </Button>
+
+                        <Button fullWidth size="large" type="submit" variant="contained">
+                          Buy Now
+                        </Button>
+                      </Stack>
+                    </RootStyle>
+                  </FormProvider>
                 </Grid>
               </Grid>
             </Card>

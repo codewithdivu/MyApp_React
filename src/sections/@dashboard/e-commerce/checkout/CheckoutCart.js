@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import sum from 'lodash/sum';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
@@ -28,27 +26,13 @@ import CheckoutProductList from './CheckoutProductList';
 export default function CheckoutCart() {
   const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [products, setProducts] = useState([]);
+  const { checkout } = useSelector((state) => state.product);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const res = await axios.get('http://localhost:8888/api/v1/product');
-      console.log('res :>> ', res?.data?.data);
-      setProducts(res?.data?.data);
-    };
+  const { cart, total, discount, subtotal } = checkout;
 
-    fetchProducts();
-  }, []);
+  const totalItems = sum(cart.map((item) => item.quantity));
 
-  // const { checkout } = useSelector((state) => state.product);
-
-  // const { cart, total, discount, subtotal } = checkout;
-
-  // const totalItems = sum(cart.map((item) => item.quantity));
-  const totalItems = products?.length || 99;
-
-  const isEmptyCart = products.length === 0;
+  const isEmptyCart = cart.length === 0;
 
   const handleDeleteCart = (productId) => {
     dispatch(deleteCart(productId));
@@ -79,7 +63,7 @@ export default function CheckoutCart() {
               <Typography variant="h6">
                 Card
                 <Typography component="span" sx={{ color: 'text.secondary' }}>
-                  &nbsp;({50} item)
+                  &nbsp;({totalItems} item)
                 </Typography>
               </Typography>
             }
@@ -89,7 +73,7 @@ export default function CheckoutCart() {
           {!isEmptyCart ? (
             <Scrollbar>
               <CheckoutProductList
-                products={products}
+                products={cart}
                 onDelete={handleDeleteCart}
                 onIncreaseQuantity={handleIncreaseQuantity}
                 onDecreaseQuantity={handleDecreaseQuantity}
@@ -112,12 +96,9 @@ export default function CheckoutCart() {
       <Grid item xs={12} md={4}>
         <CheckoutSummary
           enableDiscount
-          total={77}
-          discount={5}
-          subtotal={23}
-          // total={total}
-          // discount={discount}
-          // subtotal={subtotal}
+          total={total}
+          discount={discount}
+          subtotal={subtotal}
           onApplyDiscount={handleApplyDiscount}
         />
         <Button
@@ -125,7 +106,7 @@ export default function CheckoutCart() {
           size="large"
           type="submit"
           variant="contained"
-          disabled={products.length === 0}
+          disabled={cart.length === 0}
           onClick={handleNextStep}
         >
           Check Out

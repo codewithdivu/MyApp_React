@@ -70,7 +70,6 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     const initialize = async () => {
-      console.log('hey :>> ');
       try {
         const accessToken = window.localStorage.getItem('accessToken');
 

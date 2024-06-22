@@ -97,7 +97,7 @@ const slice = createSlice({
         state.checkout.cart = [...state.checkout.cart, product];
       } else {
         state.checkout.cart = state.checkout.cart.map((_product) => {
-          const isExisted = _product.id === product.id;
+          const isExisted = _product._id === product._id;
           if (isExisted) {
             return {
               ..._product,
@@ -107,11 +107,11 @@ const slice = createSlice({
           return _product;
         });
       }
-      state.checkout.cart = uniqBy([...state.checkout.cart, product], 'id');
+      state.checkout.cart = uniqBy([...state.checkout.cart, product], '_id');
     },
 
     deleteCart(state, action) {
-      const updateCart = state.checkout.cart.filter((item) => item.id !== action.payload);
+      const updateCart = state.checkout.cart.filter((item) => item._id !== action.payload);
 
       state.checkout.cart = updateCart;
     },
@@ -142,7 +142,7 @@ const slice = createSlice({
     increaseQuantity(state, action) {
       const productId = action.payload;
       const updateCart = state.checkout.cart.map((product) => {
-        if (product.id === productId) {
+        if (product._id === productId) {
           return {
             ...product,
             quantity: product.quantity + 1,
@@ -157,7 +157,7 @@ const slice = createSlice({
     decreaseQuantity(state, action) {
       const productId = action.payload;
       const updateCart = state.checkout.cart.map((product) => {
-        if (product.id === productId) {
+        if (product._id === productId) {
           return {
             ...product,
             quantity: product.quantity - 1,
@@ -214,8 +214,8 @@ export function getProducts() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/products');
-      dispatch(slice.actions.getProductsSuccess(response.data.products));
+      const response = await axios.get('http://localhost:8888/api/v1/product');
+      dispatch(slice.actions.getProductsSuccess(response?.data?.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -224,14 +224,12 @@ export function getProducts() {
 
 // ----------------------------------------------------------------------
 
-export function getProduct(name) {
+export function getProduct(id) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/products/product', {
-        params: { name },
-      });
-      dispatch(slice.actions.getProductSuccess(response.data.product));
+      const response = await axios.get(`http://localhost:8888/api/v1/product/${id}`);
+      dispatch(slice.actions.getProductSuccess(response?.data?.data));
     } catch (error) {
       console.error(error);
       dispatch(slice.actions.hasError(error));

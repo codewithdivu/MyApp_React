@@ -42,6 +42,7 @@ CheckoutProductList.propTypes = {
 };
 
 export default function CheckoutProductList({ products, onDelete, onIncreaseQuantity, onDecreaseQuantity }) {
+  console.log('available :>> ', products?.available);
   return (
     <TableContainer sx={{ minWidth: 720 }}>
       <Table>
@@ -57,9 +58,9 @@ export default function CheckoutProductList({ products, onDelete, onIncreaseQuan
 
         <TableBody>
           {products.map((product) => {
-            const { id, name, size, price, color, cover, quantity, available } = product;
+            const { _id, name, size, price, color, cover, quantity, available } = product;
             return (
-              <TableRow key={id}>
+              <TableRow key={_id}>
                 <TableCell>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Image
@@ -102,15 +103,15 @@ export default function CheckoutProductList({ products, onDelete, onIncreaseQuan
                   <Incrementer
                     quantity={quantity}
                     available={available}
-                    onDecrease={() => onDecreaseQuantity(id)}
-                    onIncrease={() => onIncreaseQuantity(id)}
+                    onDecrease={() => onDecreaseQuantity(_id)}
+                    onIncrease={() => onIncreaseQuantity(_id)}
                   />
                 </TableCell>
 
                 <TableCell align="right">{fCurrency(price * quantity)}</TableCell>
 
                 <TableCell align="right">
-                  <IconButton onClick={() => onDelete(id)}>
+                  <IconButton onClick={() => onDelete(_id)}>
                     <Iconify icon={'eva:trash-2-outline'} width={20} height={20} />
                   </IconButton>
                 </TableCell>

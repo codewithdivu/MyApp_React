@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import sum from 'lodash/sum';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
@@ -35,9 +36,12 @@ const RootStyle = styled(RouterLink)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function CartWidget() {
+  const { checkout } = useSelector((state) => state.product);
+  const totalItems = sum(checkout.cart.map((item) => item.quantity));
+
   return (
     <RootStyle to={''}>
-      <Badge showZero badgeContent={50} color="error" max={99}>
+      <Badge showZero badgeContent={totalItems} color="error" max={99}>
         <Iconify icon={'eva:shopping-cart-fill'} width={24} height={24} />
       </Badge>
     </RootStyle>

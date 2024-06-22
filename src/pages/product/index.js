@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, Container, Stack } from '@mui/material';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import Page from '../../components/Page';
@@ -9,21 +10,16 @@ import CartWidget from '../../sections/@dashboard/e-commerce/CartWidget';
 import { ShopProductCard, ShopProductSearch, ShopProductSort } from '../../sections/@dashboard/e-commerce/shop';
 import { FormProvider } from '../../components/hook-form';
 import { SkeletonProductItem } from '../../components/skeleton';
+import { getProducts } from '../../redux/slices/product';
 
 const ProductList = () => {
   const { themeStretch } = useSettings();
-  const [isLoading, setIsLoading] = useState(false);
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+  const { products, isLoading } = useSelector((state) => state.product);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const res = await axios.get('http://localhost:8888/api/v1/product');
-      console.log('res :>> ', res?.data?.data);
-      setProducts(res?.data?.data);
-    };
-
-    fetchProducts();
-  }, []);
+    dispatch(getProducts());
+  }, [dispatch]);
 
   const product = {
     name: 'Sample Product',
