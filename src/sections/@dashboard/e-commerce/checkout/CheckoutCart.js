@@ -88,7 +88,12 @@ export default function CheckoutCart() {
           )}
         </Card>
 
-        <Button color="inherit" component={RouterLink} to={''} startIcon={<Iconify icon={'eva:arrow-ios-back-fill'} />}>
+        <Button
+          color="inherit"
+          component={RouterLink}
+          to={'/dashboard/product'}
+          startIcon={<Iconify icon={'eva:arrow-ios-back-fill'} />}
+        >
           Continue Shopping
         </Button>
       </Grid>

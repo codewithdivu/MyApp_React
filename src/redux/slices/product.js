@@ -208,7 +208,7 @@ export const {
   filterProducts,
 } = slice.actions;
 
-// ----------------------------------------------------------------------
+// get Products
 
 export function getProducts() {
   return async () => {
@@ -222,7 +222,7 @@ export function getProducts() {
   };
 }
 
-// ----------------------------------------------------------------------
+// get Product by id
 
 export function getProduct(id) {
   return async () => {
@@ -232,6 +232,48 @@ export function getProduct(id) {
       dispatch(slice.actions.getProductSuccess(response?.data?.data));
     } catch (error) {
       console.error(error);
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// add to cart
+
+export function addProductToCart(productId, quantity = 1) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.post('http://localhost:8888/api/v1/cart', { productId, quantity });
+      dispatch(slice.actions.addCart(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// remove cart
+
+export function removeProductFromCart(productId) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.delete('http://localhost:8888/api/v1/cart', { data: { productId } });
+      dispatch(slice.actions.deleteCart(productId));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// fetch cart
+
+export function fetchCart() {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.get('http://localhost:8888/api/v1/cart');
+      dispatch(slice.actions.getCart(response.data.data.items));
+    } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
   };

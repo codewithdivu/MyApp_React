@@ -252,7 +252,7 @@ const ProductDetails = () => {
             </Grid>
           </>
         )}
-        {/* {!product && <SkeletonProduct />} */}
+        {!product && <SkeletonProduct />}
         <CartWidget />
       </Container>
     </Page>
