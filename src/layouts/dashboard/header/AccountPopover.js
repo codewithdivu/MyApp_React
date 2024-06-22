@@ -21,6 +21,10 @@ const MENU_OPTIONS = [
     label: 'Home',
     linkTo: '/',
   },
+  {
+    label: 'Account',
+    linkTo: '/dashboard/account',
+  },
 ];
 
 // ----------------------------------------------------------------------

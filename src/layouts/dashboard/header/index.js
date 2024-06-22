@@ -70,7 +70,7 @@ export default function DashboardHeader({ onOpenSidebar, isCollapse = false, ver
           px: { lg: 5 },
         }}
       >
-        {isDesktop && verticalLayout && <Logo sx={{ mr: 2.5 }} />}
+        {isDesktop && verticalLayout && <Logo sx={{ mr: 2.5, mt: 2 }} />}
 
         {!isDesktop && (
           <IconButtonAnimate onClick={onOpenSidebar} sx={{ mr: 1, color: 'text.primary' }}>
@@ -81,7 +81,7 @@ export default function DashboardHeader({ onOpenSidebar, isCollapse = false, ver
         <Searchbar />
         <Box sx={{ flexGrow: 1 }} />
 
-        <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
+        <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }} mt={1}>
           {/* <LanguagePopover /> */}
           {/* <NotificationsPopover /> */}
           {/* <ContactsPopover /> */}

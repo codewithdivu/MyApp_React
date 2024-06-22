@@ -13,6 +13,8 @@ import { HEADER, NAVBAR } from '../../config';
 import DashboardHeader from './header';
 import NavbarVertical from './navbar/NavbarVertical';
 import NavbarHorizontal from './navbar/NavbarHorizontal';
+import MainFooter from '../main/MainFooter';
+import MainHeader from '../main/MainHeader';
 
 // ----------------------------------------------------------------------
 
@@ -50,17 +52,17 @@ export default function DashboardLayout() {
 
   const verticalLayout = themeLayout === 'vertical';
 
-
   if (verticalLayout) {
     return (
       <>
-        <DashboardHeader onOpenSidebar={() => setOpen(true)} verticalLayout={verticalLayout} />
+        {/* <DashboardHeader onOpenSidebar={() => setOpen(true)} verticalLayout={verticalLayout} /> */}
+        <MainHeader />
 
-        {isDesktop ? (
+        {/* {isDesktop ? (
           <NavbarHorizontal />
         ) : (
           <NavbarVertical isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
-        )}
+        )} */}
 
         <Box
           component="main"
@@ -78,6 +80,7 @@ export default function DashboardLayout() {
         >
           <Outlet />
         </Box>
+        <MainFooter />
       </>
     );
   }

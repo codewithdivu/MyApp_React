@@ -14,6 +14,7 @@ import { PATH_AFTER_LOGIN } from '../config';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 import { PATH_DASHBOARD } from './paths';
+import UserAccount from '../pages/dashboard/user/UserAccount';
 
 // ----------------------------------------------------------------------
 
@@ -75,6 +76,10 @@ export default function Router() {
               <GeneralApp />
             </RoleBasedGuard>
           ),
+        },
+        {
+          path: 'account',
+          element: <UserAccount />,
         },
         // {
         //   path: 'master',
