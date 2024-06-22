@@ -15,6 +15,9 @@ import { PATH_AFTER_LOGIN } from '../config';
 import LoadingScreen from '../components/LoadingScreen';
 import { PATH_DASHBOARD } from './paths';
 import UserAccount from '../pages/dashboard/user/UserAccount';
+import ProductList from '../pages/product';
+import ProductDetails from '../pages/product/ProductDetails';
+import ProductCheckOut from '../pages/product/ProductCheckout';
 
 // ----------------------------------------------------------------------
 
@@ -81,6 +84,18 @@ export default function Router() {
           path: 'account',
           element: <UserAccount />,
         },
+        {
+          path: 'product',
+          element: <ProductList />,
+        },
+        {
+          path: 'product/:id',
+          element: <ProductDetails />,
+        },
+        {
+          path:'checkout',
+          element:<ProductCheckOut />
+        }
         // {
         //   path: 'master',
         //   children: [
