@@ -1,6 +1,10 @@
-import { useTheme } from '@emotion/react';
-import axios from 'axios';
+// react && redux
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router';
+// @mui
+import { useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 import {
   Card,
   Container,
@@ -14,38 +18,40 @@ import {
   Divider,
   Button,
 } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import styled from '@emotion/styled';
-import { useNavigate, useParams } from 'react-router';
+// hooks
 import { useForm } from 'react-hook-form';
-import CartWidget from '../../sections/@dashboard/e-commerce/CartWidget';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
-import Page from '../../components/Page';
 import useSettings from '../../hooks/useSettings';
-import { PATH_DASHBOARD } from '../../routes/paths';
-import { SkeletonProduct } from '../../components/skeleton';
-import Iconify from '../../components/Iconify';
-import Markdown from '../../components/Markdown';
-import Label from '../../components/Label';
-import { fCurrency } from '../../utils/formatNumber';
-import { ProductDetailsCarousel } from '../../sections/@dashboard/e-commerce/product-details';
+// components
 import { addCart, addProductToCart, fetchCart, getProduct, getProducts } from '../../redux/slices/product';
+import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+import { SkeletonProduct } from '../../components/skeleton';
 import { FormProvider } from '../../components/hook-form';
+import Markdown from '../../components/Markdown';
+import Iconify from '../../components/Iconify';
+import Label from '../../components/Label';
+import Page from '../../components/Page';
+// sections
+import { ProductDetailsCarousel } from '../../sections/@dashboard/e-commerce/product-details';
+import CartWidget from '../../sections/@dashboard/e-commerce/CartWidget';
+// constants
+import { PATH_DASHBOARD } from '../../routes/paths';
+// utils
+import { fCurrency } from '../../utils/formatNumber';
 
 const PRODUCT_DESCRIPTION = [
   {
     title: '100% Original',
-    description: 'Chocolate bar candy canes ice cream toffee cookie halvah.',
+    description: 'Product is 100% original and authentic.',
     icon: 'ic:round-verified',
   },
   {
     title: '10 Day Replacement',
-    description: 'Marshmallow biscuit donut dragée fruitcake wafer.',
+    description: 'You can replace the product within 10 days.',
     icon: 'eva:clock-fill',
   },
   {
     title: 'Year Warranty',
-    description: 'Cotton candy gingerbread cake I love sugar sweet.',
+    description: 'The product comes with a one-year warranty.',
     icon: 'ic:round-verified-user',
   },
 ];
@@ -72,13 +78,11 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 const ProductDetails = () => {
   const theme = useTheme();
-  const navigate = useNavigate();
-  const { themeStretch } = useSettings();
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { themeStretch } = useSettings();
   const { product, isLoading, error, checkout } = useSelector((state) => state.product);
-  console.log('checkout :>> ', checkout);
-
   const isThere = checkout?.cart?.some((item) => item._id === id);
 
   useEffect(() => {
@@ -143,12 +147,13 @@ const ProductDetails = () => {
         <HeaderBreadcrumbs
           heading="Details"
           links={[
-            { name: 'Products', href: PATH_DASHBOARD.general.app },
-            { name: `${id}`, href: PATH_DASHBOARD.general.app },
+            { name: 'Dashboard', href: PATH_DASHBOARD.general.app },
+            { name: 'Products', href: PATH_DASHBOARD.general.products },
+            { name: `${id}`, href: PATH_DASHBOARD.general.product(id) },
           ]}
         />
         {isLoading ? (
-          <h1>Loading...</h1>
+          <SkeletonProduct />
         ) : (
           <>
             <Card>
@@ -161,7 +166,6 @@ const ProductDetails = () => {
                     <RootStyle>
                       <Label
                         variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                        //   color={inventoryType === 'in_stock' ? 'success' : 'error'}
                         sx={{ textTransform: 'uppercase' }}
                       >
                         NEW
@@ -182,7 +186,7 @@ const ProductDetails = () => {
                       </Typography>
 
                       <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
-                        <Rating value={4} precision={0.1} readOnly />
+                        <Rating value={product?.rating} precision={0.1} readOnly />
                       </Stack>
 
                       <Typography variant="h4" sx={{ mb: 3 }}>
@@ -256,7 +260,6 @@ const ProductDetails = () => {
             </Grid>
           </>
         )}
-        {!product && <SkeletonProduct />}
         <CartWidget />
       </Container>
     </Page>

@@ -17,11 +17,9 @@ import CheckoutNewAddressForm from './CheckoutNewAddressForm';
 // ----------------------------------------------------------------------
 
 export default function CheckoutBillingAddress() {
-  //
   const dispatch = useDispatch();
   const { checkout } = useSelector((state) => state.product);
   const { total, discount, subtotal } = checkout;
-  //
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

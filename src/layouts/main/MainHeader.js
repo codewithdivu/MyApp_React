@@ -100,7 +100,7 @@ export default function MainHeader() {
             <AccountPopover />
           </Stack>
 
-          {!isDesktop && <MenuMobile isOffset={isOffset} isHome={isHome} navConfig={navConfig} />}
+          {/* {!isDesktop && <MenuMobile isOffset={isOffset} isHome={isHome} navConfig={navConfig} />} */}
         </Container>
       </ToolbarStyle>
 

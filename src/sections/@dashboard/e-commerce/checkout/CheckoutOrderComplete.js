@@ -33,7 +33,7 @@ export default function CheckoutOrderComplete({ ...other }) {
 
   const handleResetStep = () => {
     dispatch(resetCart());
-    navigate(PATH_DASHBOARD.eCommerce.shop);
+    navigate(PATH_DASHBOARD.general.products);
   };
 
   return (
@@ -64,13 +64,13 @@ export default function CheckoutOrderComplete({ ...other }) {
           <Button color="inherit" onClick={handleResetStep} startIcon={<Iconify icon={'eva:arrow-ios-back-fill'} />}>
             Continue Shopping
           </Button>
-          <Button
+          {/* <Button
             variant="contained"
             startIcon={<Iconify icon={'ant-design:file-pdf-filled'} />}
             onClick={handleResetStep}
           >
             Download as PDF
-          </Button>
+          </Button> */}
         </Stack>
       </Box>
     </DialogStyle>

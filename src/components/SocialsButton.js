@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 // @mui
+import { Link } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
-import { Link, Stack, Button, Tooltip, IconButton } from '@mui/material';
+import { Stack, Button, Tooltip, IconButton } from '@mui/material';
 //
 import Iconify from './Iconify';
 
@@ -20,25 +21,25 @@ export default function SocialsButton({ initialColor = false, simple = true, lin
       name: 'FaceBook',
       icon: 'eva:facebook-fill',
       socialColor: '#1877F2',
-      path: links.facebook || '#facebook-link',
+      path: links.facebook || 'www.google.com',
     },
     {
       name: 'Instagram',
       icon: 'ant-design:instagram-filled',
       socialColor: '#E02D69',
-      path: links.instagram || '#instagram-link',
+      path: links.instagram || 'https://www.instagram.com/divuu0017/',
     },
     {
       name: 'Linkedin',
       icon: 'eva:linkedin-fill',
       socialColor: '#007EBB',
-      path: links.linkedin || '#linkedin-link',
+      path: links.linkedin || 'https://www.linkedin.com/in/divyesh-mavadiya-a8a995201/',
     },
     {
       name: 'Twitter',
       icon: 'eva:twitter-fill',
       socialColor: '#00AAEC',
-      path: links.twitter || '#twitter-link',
+      path: links.twitter || 'https://x.com/Divyesh_017',
     },
   ];
 
@@ -47,7 +48,7 @@ export default function SocialsButton({ initialColor = false, simple = true, lin
       {SOCIALS.map((social) => {
         const { name, icon, path, socialColor } = social;
         return simple ? (
-          <Link key={name} href={path}>
+          <Link key={name} to={path} target="_blank" rel="noopener noreferrer">
             <Tooltip title={name} placement="top">
               <IconButton
                 color="inherit"

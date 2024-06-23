@@ -1,11 +1,17 @@
-import { capitalCase } from 'change-case';
+// @mui
 import { Container, Tab, Box, Tabs } from '@mui/material';
+// utils
+import { capitalCase } from 'change-case';
+// hooks
+import useSettings from '../../../hooks/useSettings';
+import useTabs from '../../../hooks/useTabs';
+// constants
 import { PATH_DASHBOARD } from '../../../routes/paths';
+// components
 import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
 import Iconify from '../../../components/Iconify';
 import Page from '../../../components/Page';
-import useSettings from '../../../hooks/useSettings';
-import useTabs from '../../../hooks/useTabs';
+// sections
 import AccountProfile from '../../../sections/@dashboard/user/AccountProfile';
 
 export default function UserAccount() {
@@ -14,7 +20,7 @@ export default function UserAccount() {
   const { currentTab, onChangeTab } = useTabs('general');
 
   return (
-    <Page title="User: Account Settings">
+    <Page title="User: Account">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading="Account"

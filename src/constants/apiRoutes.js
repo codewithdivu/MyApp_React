@@ -1,7 +1,7 @@
 export const apiRoutes = {
   // auth
   AUTH: {
-    REGISTRATION: '/auth/registration',
+    REGISTRATION: '/auth/register',
     LOGIN: '/auth/login',
     FORGOT_PASSWORD: '/auth/forgot-password',
     RESET_PASSWORD: '/auth/reset-password',

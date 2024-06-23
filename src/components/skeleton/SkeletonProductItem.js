@@ -1,7 +1,4 @@
-// @mui
 import { Card, Skeleton, Stack } from '@mui/material';
-
-// ----------------------------------------------------------------------
 
 export default function SkeletonProductItem() {
   return (

@@ -1,22 +1,27 @@
+// react && redux
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
+// @mui
 import styled from '@emotion/styled';
 import { Box, Container, Grid, Stack, Step, StepConnector, StepLabel, Stepper } from '@mui/material';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
-import Page from '../../components/Page';
+// hooks
 import useSettings from '../../hooks/useSettings';
-import { PATH_DASHBOARD } from '../../routes/paths';
+import useIsMountedRef from '../../hooks/useIsMountedRef';
+// components
+import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+import { fetchCart, getCart } from '../../redux/slices/product';
+import Iconify from '../../components/Iconify';
+import Page from '../../components/Page';
+// sections
 import {
   CheckoutBillingAddress,
   CheckoutCart,
   CheckoutOrderComplete,
   CheckoutPayment,
 } from '../../sections/@dashboard/e-commerce/checkout';
-import useIsMountedRef from '../../hooks/useIsMountedRef';
-import { fetchCart, getCart } from '../../redux/slices/product';
-import Iconify from '../../components/Iconify';
+// constants
+import { PATH_DASHBOARD } from '../../routes/paths';
 
 const STEPS = ['Cart', 'Billing & address', 'Payment'];
 
@@ -81,8 +86,7 @@ const ProductCheckOut = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (isMountedRef.current) {
-        // dispatch(getCart(cart));
-        const data = await dispatch(fetchCart());
+        await dispatch(fetchCart());
       }
     };
 
@@ -92,7 +96,14 @@ const ProductCheckOut = () => {
   return (
     <Page title="Products: Checkout">
       <Container maxWidth={themeStretch ? false : 'lg'}>
-        <HeaderBreadcrumbs heading="Checkout" links={[{ name: 'Dashboard', href: PATH_DASHBOARD.root }]} />
+        <HeaderBreadcrumbs
+          heading="Checkout"
+          links={[
+            { name: 'Dashboard', href: PATH_DASHBOARD.general.app },
+            { name: 'Products', href: PATH_DASHBOARD.general.products },
+            { name: 'Cart', href: PATH_DASHBOARD.general.checkout },
+          ]}
+        />
 
         <Grid container justifyContent={isComplete ? 'center' : 'flex-start'}>
           <Grid item xs={12} md={8} sx={{ mb: 5 }}>

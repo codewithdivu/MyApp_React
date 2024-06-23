@@ -1,6 +1,6 @@
-import { m } from 'framer-motion';
 // @mui
 import { styled } from '@mui/material/styles';
+import { m } from 'framer-motion';
 import { Box, Container, Typography } from '@mui/material';
 // components
 import { MotionContainer, TextAnimate, varFade } from '../../components/animate';
@@ -11,7 +11,7 @@ const RootStyle = styled('div')(({ theme }) => ({
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundImage:
-    'url(https://minimal-assets-api.vercel.app/assets/overlay.svg), url(https://minimal-assets-api.vercel.app/assets/images/about/hero.jpg)',
+    'url(https://img.freepik.com/premium-photo/pink-bokeh-glitter-sweet-background-graphic-design-illustration_1048944-27259135.jpg?w=1800), url(https://img.freepik.com/premium-photo/pink-bokeh-glitter-sweet-background-graphic-design-illustration_1048944-27259135.jpg?w=1800)',
   padding: theme.spacing(10, 0),
   [theme.breakpoints.up('md')]: {
     height: 560,
@@ -35,11 +35,11 @@ export default function AboutHero() {
     <RootStyle>
       <Container component={MotionContainer} sx={{ position: 'relative', height: '100%' }}>
         <ContentStyle>
-          <TextAnimate text="Who" sx={{ color: 'primary.main' }} variants={varFade().inRight} />
+          <TextAnimate text="Discover" sx={{ color: 'primary.main' }} variants={varFade().inRight} />
           <br />
-          <Box sx={{ display: 'inline-flex', color: 'common.white' }}>
-            <TextAnimate text="we" sx={{ mr: 2 }} />
-            <TextAnimate text="are?" />
+          <Box sx={{ display: 'inline-flex', color: 'common.black' }}>
+            <TextAnimate text="our" sx={{ mr: 2 }} />
+            <TextAnimate text="story" />
           </Box>
 
           <m.div variants={varFade().inRight}>
@@ -47,12 +47,12 @@ export default function AboutHero() {
               variant="h4"
               sx={{
                 mt: 5,
-                color: 'common.white',
+                color: 'common.black',
                 fontWeight: 'fontWeightMedium',
               }}
             >
-              Let's work together and
-              <br /> make awesome site easily
+              Crafting exceptional shopping experiences
+              <br /> for every customer
             </Typography>
           </m.div>
         </ContentStyle>

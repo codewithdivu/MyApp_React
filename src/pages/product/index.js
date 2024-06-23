@@ -1,16 +1,21 @@
+// react && redux
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+// @mui
 import { Box, Container, Stack } from '@mui/material';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
-import Page from '../../components/Page';
+// hooks
 import useSettings from '../../hooks/useSettings';
+// constants
 import { PATH_DASHBOARD } from '../../routes/paths';
-import CartWidget from '../../sections/@dashboard/e-commerce/CartWidget';
-import { ShopProductCard, ShopProductSearch, ShopProductSort } from '../../sections/@dashboard/e-commerce/shop';
+// componenet
+import { fetchCart, getProducts } from '../../redux/slices/product';
+import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import { FormProvider } from '../../components/hook-form';
 import { SkeletonProductItem } from '../../components/skeleton';
-import { fetchCart, getProducts } from '../../redux/slices/product';
+import Page from '../../components/Page';
+// sections
+import CartWidget from '../../sections/@dashboard/e-commerce/CartWidget';
+import { ShopProductCard, ShopProductSearch, ShopProductSort } from '../../sections/@dashboard/e-commerce/shop';
 
 const ProductList = () => {
   const { themeStretch } = useSettings();
@@ -29,19 +34,16 @@ const ProductList = () => {
     fetchData();
   }, [dispatch]);
 
-  const product = {
-    name: 'Sample Product',
-    cover: 'https://via.placeholder.com/150', // Placeholder image URL
-    price: 99.99,
-    colors: ['Red', 'Blue', 'Green'],
-    status: 'in stock', // Other possible values: "out of stock", "pre-order"
-    priceSale: 79.99,
-  };
-
   return (
     <Page title="Products: Shop">
       <Container maxWidth={themeStretch ? false : 'lg'}>
-        <HeaderBreadcrumbs heading="Shop" links={[{ name: 'Dashboard', href: PATH_DASHBOARD.root }]} />
+        <HeaderBreadcrumbs
+          heading="Shop"
+          links={[
+            { name: 'Dashboard', href: PATH_DASHBOARD.general.app },
+            { name: 'Products', href: PATH_DASHBOARD.general.products },
+          ]}
+        />
 
         <Stack
           spacing={2}

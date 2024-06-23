@@ -55,13 +55,13 @@ export default function AboutTeam() {
     <Container component={MotionViewport} sx={{ pb: 10, textAlign: 'center' }}>
       <m.div variants={varFade().inDown}>
         <Typography component="p" variant="overline" sx={{ mb: 2, color: 'text.secondary' }}>
-          Dream team
+          Our Team
         </Typography>
       </m.div>
 
       <m.div variants={varFade().inUp}>
         <Typography variant="h2" sx={{ mb: 3 }}>
-          Great team is the key
+          Meet Our E-commerce Experts
         </Typography>
       </m.div>
 
@@ -73,60 +73,34 @@ export default function AboutTeam() {
             color: (theme) => (theme.palette.mode === 'light' ? 'text.secondary' : 'common.white'),
           }}
         >
-          Minimal will provide you support if you have any problems, our support team will reply within a day and we
-          also have detailed documentation.
+          Our dedicated team is here to support you with any issues you may have. Expect a response within a day, along
+          with comprehensive documentation to guide you.
         </Typography>
       </m.div>
 
-      <Box sx={{ position: 'relative' }}>
-        <CarouselArrows filled onNext={handleNext} onPrevious={handlePrevious}>
-          <Slider ref={carouselRef} {...settings}>
-            {_carouselsMembers.map((member) => (
-              <Box key={member.id} component={m.div} variants={varFade().in} sx={{ px: 1.5, py: 10 }}>
-                <MemberCard member={member} />
-              </Box>
-            ))}
-          </Slider>
-        </CarouselArrows>
+      <Box>
+        <Box component={m.div} variants={varFade().in} sx={{ px: 1.5, py: 10, mb: 10 }}>
+          <Card sx={{ p: 1 }}>
+            <Typography variant="subtitle1" sx={{ mt: 2, mb: 0.5 }}>
+              Mavadiya Divyesh
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary' }}>
+              Software Engineer{' '}
+            </Typography>
+            <Image
+              alt={'Divyesh'}
+              src={
+                'https://avatars.githubusercontent.com/u/74129812?s=400&u=0a526e466bc8ebe3563e038c3631e4cbc7728922&v=4'
+              }
+              ratio="1/1"
+              sx={{ borderRadius: 1.5 }}
+            />
+            <Stack alignItems="center" sx={{ mt: 2, mb: 1 }}>
+              <SocialsButton sx={{ color: 'action.active' }} />
+            </Stack>
+          </Card>
+        </Box>
       </Box>
-      <Button
-        variant="outlined"
-        color="inherit"
-        size="large"
-        endIcon={<Iconify icon={'ic:round-arrow-right-alt'} width={24} height={24} />}
-        sx={{ mx: 'auto' }}
-      >
-        View all team members
-      </Button>
     </Container>
-  );
-}
-
-// ----------------------------------------------------------------------
-
-MemberCard.propTypes = {
-  member: PropTypes.shape({
-    avatar: PropTypes.string,
-    name: PropTypes.string,
-    role: PropTypes.string,
-  }),
-};
-
-function MemberCard({ member }) {
-  const { name, role, avatar } = member;
-
-  return (
-    <Card key={name} sx={{ p: 1 }}>
-      <Typography variant="subtitle1" sx={{ mt: 2, mb: 0.5 }}>
-        {name}
-      </Typography>
-      <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary' }}>
-        {role}
-      </Typography>
-      <Image alt={name} src={avatar} ratio="1/1" sx={{ borderRadius: 1.5 }} />
-      <Stack alignItems="center" sx={{ mt: 2, mb: 1 }}>
-        <SocialsButton sx={{ color: 'action.active' }} />
-      </Stack>
-    </Card>
   );
 }

@@ -4,6 +4,7 @@ import { Container, Grid, Stack } from '@mui/material';
 // hooks
 import useAuth from '../../hooks/useAuth';
 import useSettings from '../../hooks/useSettings';
+import useFirebaseData from '../../hooks/useFirebaseData';
 // components
 import Page from '../../components/Page';
 // sections
@@ -19,47 +20,11 @@ import {
   AppCurrentDownload,
   AppTopInstalledCountries,
 } from '../../sections/@dashboard/general/app';
-import useFirebaseData from '../../hooks/useFirebaseData';
-import { FIREBASE_COLLECTIONS } from '../../constants/collections';
-import { FIREBASE_OPERATORS } from '../../constants/operators';
-import { USER_ROLES } from '../../constants/keywords';
 
 export default function GeneralApp() {
   const { user } = useAuth();
   const theme = useTheme();
   const { themeStretch } = useSettings();
-
-  // const { data: tableData } = useFirebaseData(FIREBASE_COLLECTIONS.users, [
-  //   {
-  //     property: 'status',
-  //     operator: FIREBASE_OPERATORS.EQUAL_TO,
-  //     value: 'active',
-  //   },
-  // ]);
-
-  // const { data: schools } = useFirebaseData(FIREBASE_COLLECTIONS.schools, [
-  //   {
-  //     property: 'isActive',
-  //     operator: FIREBASE_OPERATORS.EQUAL_TO,
-  //     value: true,
-  //   },
-  // ]);
-
-  // const { data: papers } = useFirebaseData(FIREBASE_COLLECTIONS.papers, [
-  //   {
-  //     property: 'isPublished',
-  //     operator: FIREBASE_OPERATORS.EQUAL_TO,
-  //     value: true,
-  //   },
-  // ]);
-
-  // const { data: questions } = useFirebaseData(FIREBASE_COLLECTIONS.questions, [
-  //   {
-  //     property: 'isPublished',
-  //     operator: FIREBASE_OPERATORS.EQUAL_TO,
-  //     value: true,
-  //   },
-  // ]);
 
   return (
     <Page title="General: App">

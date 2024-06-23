@@ -5,6 +5,7 @@ import { USER_ROLES } from '../constants/keywords';
 import useAuth from '../hooks/useAuth';
 import DashboardLayout from '../layouts/dashboard';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
+import MainLayout from '../layouts/main';
 // guards
 import AuthGuard from '../guards/AuthGuard';
 import RoleBasedGuard from '../guards/RoleBasedGuard';
@@ -100,6 +101,15 @@ export default function Router() {
     },
     {
       path: '/',
+      element: <MainLayout />,
+      children: [
+        { path: 'about-us', element: <About /> },
+        { path: 'contact-us', element: <Contact /> },
+        { path: 'faqs', element: <Faqs /> },
+      ],
+    },
+    {
+      path: '/',
       element: <Outlet />,
       children: [{ element: <Navigate to={LANDING_ROUTE} replace />, index: true }],
     },
@@ -122,3 +132,6 @@ const Checkout = Loadable(lazy(() => import('../pages/product/ProductCheckout'))
 // OTHERS
 const Maintenance = Loadable(lazy(() => import('../pages/Maintenance')));
 const NotFound = Loadable(lazy(() => import('../pages/Page404')));
+const About = Loadable(lazy(() => import('../pages/About')));
+const Contact = Loadable(lazy(() => import('../pages/Contact')));
+const Faqs = Loadable(lazy(() => import('../pages/Faqs')));

@@ -1,5 +1,7 @@
 /* eslint-disable consistent-return */
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router';
+
 import { useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -15,8 +17,10 @@ import useAuth from '../../../hooks/useAuth';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFRadioInput, RHFSelectInput } from '../../../components/hook-form';
+import { PATH_AUTH, PATH_DASHBOARD } from '../../../routes/paths';
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
   // Config
   const RegisterSchema = Yup.object()
     .shape({
@@ -71,28 +75,12 @@ export default function RegisterForm() {
   const selectedRole = watch('designation');
 
   // Handlers
-  const onSubmit = async ({ selectedSeries, ...formData }) => {
+  const onSubmit = async (formData) => {
     try {
-      const isMatched = data?.some(({ code }) => formData.code === code);
-      if (!isMatched) {
-        return setError('secretCode', { message: 'Secret code is invalid or expired' });
-      }
-      const matched = data?.find(({ code }) => formData.code === code);
-      const res = await register({
-        ...formData,
-        series: selectedSeries && selectedSeries?.length > 0 ? selectedSeries?.filter(({ series }) => !!series) : [],
-        status: USER_STATUS.INACTIVE,
-        schoolId: matched?.id,
-      });
-      if (res) {
-        enqueueSnackbar(`Thank you for registering with us! We'll verify your account and let you know`, {
-          anchorOrigin: { horizontal: 'center', vertical: 'top' },
-        });
-        reset();
-      } else {
-        enqueueSnackbar(`Something went wrong!`);
-      }
+      await register(formData.email, formData.password, formData.name, formData.username);
+      navigate(PATH_AUTH.login);
     } catch (error) {
+      reset();
       if (isMountedRef.current) {
         setError('afterSubmit', { ...error, message: error.message });
       }

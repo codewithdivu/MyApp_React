@@ -8,13 +8,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { Box, Grid, Card, Stack, Typography, MenuItem } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import axios from 'axios';
 // hooks
 import useAuth from '../../../hooks/useAuth';
 // utils
 import { fData } from '../../../utils/formatNumber';
-// _mock
-import { countries } from '../../../_mock';
 // components
 import {
   FormProvider,
@@ -24,24 +21,18 @@ import {
   RHFUploadAvatar,
   RHFSelectInput,
 } from '../../../components/hook-form';
-import { updateStoryItem } from '../../../services/updateServices';
-import { FIREBASE_COLLECTIONS } from '../../../constants/collections';
+// constants
 import { PATH_DASHBOARD } from '../../../routes/paths';
-import uuidv4 from '../../../utils/uuidv4';
-import { uploadFile } from '../../../services/storage';
-import { USER_STATUS } from '../../../constants/keywords';
-import { addStoryItem } from '../../../services/addServices';
-import axiosInstance from '../../../utils/axios';
 import { apiRoutes } from '../../../constants/apiRoutes';
+import axiosInstance from '../../../utils/axios';
 
 // ----------------------------------------------------------------------
 
-export default function AccountProfile({ isModelOpen, setIsOpenModel }) {
+export default function AccountProfile() {
   const { enqueueSnackbar } = useSnackbar();
 
   const navigate = useNavigate();
-  const { user, updateProfile } = useAuth();
-  console.log('user :>> ', user);
+  const { user } = useAuth();
 
   const UpdateUserSchema = Yup.object().shape({
     name: Yup.string()
@@ -83,17 +74,15 @@ export default function AccountProfile({ isModelOpen, setIsOpenModel }) {
 
       const { name, username } = data;
 
-
       const response = await axiosInstance.patch(apiRoutes.USER.UPDATE_PROFILE.replace(':id', user?._id), {
         name,
         username,
         photoURL: profilePic,
       });
 
-  
-      console.log('response :>> ', response);
       enqueueSnackbar('Updated success!');
     } catch (error) {
+      enqueueSnackbar('Some Error Occured', { variant: 'error' });
       console.error(error);
     }
   };

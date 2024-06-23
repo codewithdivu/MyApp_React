@@ -39,7 +39,6 @@ export default function CheckoutCart() {
   const isEmptyCart = cart.length === 0;
 
   const handleDeleteCart = async (productId) => {
-    // dispatch(deleteCart(productId));
     await dispatch(removeProductFromCart(productId));
   };
 
@@ -48,12 +47,10 @@ export default function CheckoutCart() {
   };
 
   const handleIncreaseQuantity = async (productId) => {
-    // dispatch(increaseQuantity(productId));
     await dispatch(incrementProductQuantity(productId));
   };
 
   const handleDecreaseQuantity = async (productId) => {
-    // dispatch(decreaseQuantity(productId));
     await dispatch(decrementProductQuantity(productId));
   };
 
@@ -68,7 +65,7 @@ export default function CheckoutCart() {
           <CardHeader
             title={
               <Typography variant="h6">
-                Card
+                Cart
                 <Typography component="span" sx={{ color: 'text.secondary' }}>
                   &nbsp;({totalItems} item)
                 </Typography>
@@ -98,7 +95,7 @@ export default function CheckoutCart() {
         <Button
           color="inherit"
           component={RouterLink}
-          to={'/dashboard/product'}
+          to={PATH_DASHBOARD.general.products}
           startIcon={<Iconify icon={'eva:arrow-ios-back-fill'} />}
         >
           Continue Shopping
