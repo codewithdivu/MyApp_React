@@ -6,7 +6,6 @@ import useAuth from '../hooks/useAuth';
 import DashboardLayout from '../layouts/dashboard';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 // guards
-import GuestGuard from '../guards/GuestGuard';
 import AuthGuard from '../guards/AuthGuard';
 import RoleBasedGuard from '../guards/RoleBasedGuard';
 // config
@@ -14,10 +13,6 @@ import { PATH_AFTER_LOGIN } from '../config';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 import { PATH_DASHBOARD } from './paths';
-import UserAccount from '../pages/dashboard/user/UserAccount';
-import ProductList from '../pages/product';
-import ProductDetails from '../pages/product/ProductDetails';
-import ProductCheckOut from '../pages/product/ProductCheckout';
 
 // ----------------------------------------------------------------------
 
@@ -37,24 +32,18 @@ export default function Router() {
 
   const LANDING_ROUTE = PATH_AFTER_LOGIN;
   return useRoutes([
+    // Auth Routes
+
     {
       path: 'auth',
       children: [
         {
           path: 'login',
-          element: (
-            // <GuestGuard>
-            <Login />
-            // </GuestGuard>
-          ),
+          element: <Login />,
         },
         {
           path: 'register',
-          element: (
-            // <GuestGuard>
-            <Register />
-            // </GuestGuard>
-          ),
+          element: <Register />,
         },
         { path: 'reset-password', element: <ResetPassword /> },
       ],
@@ -82,174 +71,20 @@ export default function Router() {
         },
         {
           path: 'account',
-          element: <UserAccount />,
+          element: <UserProfile />,
         },
         {
-          path: 'product',
-          element: <ProductList />,
+          path: 'products',
+          element: <Products />,
         },
         {
           path: 'product/:id',
-          element: <ProductDetails />,
+          element: <Product />,
         },
         {
-          path:'checkout',
-          element:<ProductCheckOut />
-        }
-        // {
-        //   path: 'master',
-        //   children: [
-        //     { element: <Navigate to="logins" replace />, index: true },
-        //     {
-        //       path: 'logins',
-        //       element: (
-        //         // <RoleBasedGuard accessibleRoles={[USER_ROLES.ADMIN]}>
-        //         <Outlet />
-        //         // </RoleBasedGuard>
-        //       ),
-        //       children: [
-        //         { element: <LoginList />, index: true },
-        //         { path: ':id/edit', element: <EditUser /> },
-        //         { path: ':id/view', element: <ViewUser /> },
-        //       ],
-        //     },
-        //     // {
-        //     //   path: 'employeeList',
-        //     //   element: (
-        //     //     <RoleBasedGuard accessibleRoles={[USER_ROLES.HOD]}>
-        //     //       <EmployeeAllocationList />
-        //     //     </RoleBasedGuard>
-        //     //   ),
-        //     // },
-        //     // {
-        //     //   path: 'books',
-        //     //   element: (
-        //     //     <RoleBasedGuard accessibleRoles={[USER_ROLES.HOD]}>
-        //     //       <BookAllocation />
-        //     //     </RoleBasedGuard>
-        //     //   ),
-        //     // },
-
-        //     // {
-        //     //   path: 'questionAttributes',
-        //     //   element: (
-        //     //     <RoleBasedGuard accessibleRoles={[USER_ROLES.ADMIN]}>
-        //     //       <QuestionAttributes />
-        //     //     </RoleBasedGuard>
-        //     //   ),
-        //     // },
-        //     // {
-        //     //   path: 'schools',
-        //     //   element: (
-        //     //     <RoleBasedGuard accessibleRoles={[USER_ROLES.ADMIN]}>
-        //     //       <Outlet />
-        //     //     </RoleBasedGuard>
-        //     //   ),
-        //     //   children: [
-        //     //     { element: <SchoolList />, index: true },
-        //     //     { path: 'addSchool', element: <AddSchool /> },
-        //     //     { path: 'addSchool/:id/edit', element: <AddSchool /> },
-        //     //     { path: 'addSchool/:id/view', element: <AddSchool /> },
-        //     //     { path: 'viewEditSchool', element: <SchoolList /> },
-        //     //   ],
-        //     // },
-        //     // {
-        //     //   path: 'mySchool',
-        //     //   element: (
-        //     //     <RoleBasedGuard accessibleRoles={[USER_ROLES.HOD]}>
-        //     //       <MySchool />
-        //     //     </RoleBasedGuard>
-        //     //   ),
-        //     // },
-        //   ],
-        // },
-        // {
-        //   path: 'generatePaper',
-        //   children: [
-        //     { element: <Navigate to="questionBank/viewEditQuestion" replace />, index: true },
-        //     {
-        //       path: 'questionBank',
-        //       children: [
-        //         { element: <Navigate to="viewEditQuestion" replace />, index: true },
-        //         {
-        //           path: 'addQuestion',
-        //           element: (
-        //             <RoleBasedGuard
-        //               accessibleRoles={[USER_ROLES.ADMIN, USER_ROLES.HOD, USER_ROLES.PGT, USER_ROLES.TGT]}
-        //             >
-        //               <AddQuestion />
-        //             </RoleBasedGuard>
-        //           ),
-        //         },
-        //         {
-        //           path: 'addQuestion/:id/edit',
-        //           element: (
-        //             <RoleBasedGuard
-        //               accessibleRoles={[USER_ROLES.ADMIN, USER_ROLES.HOD, USER_ROLES.PGT, USER_ROLES.TGT]}
-        //             >
-        //               <AddQuestion />
-        //             </RoleBasedGuard>
-        //           ),
-        //         },
-        //         {
-        //           path: 'viewEditQuestion',
-        //           element: (
-        //             <RoleBasedGuard
-        //               accessibleRoles={[USER_ROLES.ADMIN, USER_ROLES.HOD, USER_ROLES.PGT, USER_ROLES.TGT]}
-        //             >
-        //               <ViewEditQuestion />
-        //             </RoleBasedGuard>
-        //           ),
-        //         },
-        //         {
-        //           path: 'uploadQuestion',
-        //           element: (
-        //             <RoleBasedGuard
-        //               accessibleRoles={[USER_ROLES.ADMIN, USER_ROLES.HOD, USER_ROLES.PGT, USER_ROLES.TGT]}
-        //             >
-        //               <UploadQuestion />
-        //             </RoleBasedGuard>
-        //           ),
-        //         },
-        //       ],
-        //     },
-        //     {
-        //       path: 'createPaper',
-        //       element: (
-        //         <RoleBasedGuard accessibleRoles={[USER_ROLES.HOD, USER_ROLES.PGT, USER_ROLES.TGT]}>
-        //           <CreatePaper />
-        //         </RoleBasedGuard>
-        //       ),
-        //     },
-        //     {
-        //       path: 'createPaper/:id/edit',
-        //       element: (
-        //         <RoleBasedGuard accessibleRoles={[USER_ROLES.HOD, USER_ROLES.PGT, USER_ROLES.TGT]}>
-        //           <CreatePaper />
-        //         </RoleBasedGuard>
-        //       ),
-        //     },
-        //     {
-        //       path: 'viewEditPaper',
-        //       element: (
-        //         <RoleBasedGuard accessibleRoles={[USER_ROLES.HOD, USER_ROLES.PGT, USER_ROLES.TGT]}>
-        //           <ViewEditPaper />
-        //         </RoleBasedGuard>
-        //       ),
-        //     },
-        //   ],
-        // },
-        // {
-        //   path: 'support',
-        //   children: [
-        //     { element: <Navigate to="/support/userGuide" replace />, index: true },
-        //     { path: 'userGuide', element: <UserGuide /> },
-        //     { path: 'videoTutorial', element: <VideoTutorial /> },
-        //     { path: 'submitFeedback', element: <SubmitFeedback /> },
-        //     { path: 'answerKeys', element: <AnswerKeys /> },
-        //     { path: 'about', element: <AboutQPG /> },
-        //   ],
-        // },
+          path: 'checkout',
+          element: <Checkout />,
+        },
       ],
     },
 
@@ -277,38 +112,12 @@ const Login = Loadable(lazy(() => import('../pages/auth/Login')));
 const Register = Loadable(lazy(() => import('../pages/auth/Register')));
 const ResetPassword = Loadable(lazy(() => import('../pages/auth/ResetPassword')));
 
-// DASHBOARD
-
 // GENERAL
 const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/GeneralApp')));
-
-// MASTER
-const LoginList = Loadable(lazy(() => import('../pages/dashboard/master/logins')));
-const EmployeeAllocationList = Loadable(lazy(() => import('../pages/dashboard/master/logins/EmployeeAllocationList')));
-
-const EditUser = Loadable(lazy(() => import('../pages/dashboard/master/logins/UserProfile')));
-const ViewUser = Loadable(lazy(() => import('../pages/dashboard/master/logins/UserProfile')));
-const QuestionAttributes = Loadable(lazy(() => import('../pages/dashboard/master/QuestionAttributes')));
-const SchoolLogo = Loadable(lazy(() => import('../pages/dashboard/master/SchoolLogo')));
-const BookAllocation = Loadable(lazy(() => import('../pages/dashboard/master/BookAllocation')));
-const SchoolList = Loadable(lazy(() => import('../pages/dashboard/master/school/schoolList')));
-const AddSchool = Loadable(lazy(() => import('../pages/dashboard/master/school/addSchool')));
-const MySchool = Loadable(lazy(() => import('../pages/dashboard/master/MySchool')));
-
-// GENERATE PAPER
-const AddQuestion = Loadable(lazy(() => import('../pages/dashboard/generatePaper/questionBank/AddQuestion')));
-const ViewEditQuestion = Loadable(lazy(() => import('../pages/dashboard/generatePaper/questionBank/viewEditQuestion')));
-const UploadQuestion = Loadable(lazy(() => import('../pages/dashboard/generatePaper/questionBank/uploadQuestion')));
-
-// SUPPORT
-const UserGuide = Loadable(lazy(() => import('../pages/dashboard/support/UserGuide')));
-const VideoTutorial = Loadable(lazy(() => import('../pages/dashboard/support/VideoTutorial')));
-const SubmitFeedback = Loadable(lazy(() => import('../pages/dashboard/support/SubmitFeedback')));
-const AnswerKeys = Loadable(lazy(() => import('../pages/dashboard/support/AnswerKeys')));
-const AboutQPG = Loadable(lazy(() => import('../pages/dashboard/support/AboutQPG')));
-
-const CreatePaper = Loadable(lazy(() => import('../pages/dashboard/generatePaper/createPaper')));
-const ViewEditPaper = Loadable(lazy(() => import('../pages/dashboard/generatePaper/viewEditPaper')));
+const UserProfile = Loadable(lazy(() => import('../pages/dashboard/user/UserAccount')));
+const Products = Loadable(lazy(() => import('../pages/product')));
+const Product = Loadable(lazy(() => import('../pages/product/ProductDetails')));
+const Checkout = Loadable(lazy(() => import('../pages/product/ProductCheckout')));
 
 // OTHERS
 const Maintenance = Loadable(lazy(() => import('../pages/Maintenance')));

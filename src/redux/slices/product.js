@@ -2,9 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import sum from 'lodash/sum';
 import uniqBy from 'lodash/uniqBy';
 // utils
-import axios from '../../utils/axios';
 //
 import { dispatch } from '../store';
+import axiosInstance from '../../utils/axios';
+import { apiRoutes } from '../../constants/apiRoutes';
 
 // ----------------------------------------------------------------------
 
@@ -255,7 +256,7 @@ export function getProducts() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('http://localhost:8888/api/v1/product');
+      const response = await axiosInstance.get(apiRoutes.PRODUCT.GET_ALL_PRODUCT);
       dispatch(slice.actions.getProductsSuccess(response?.data?.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -269,7 +270,8 @@ export function getProduct(id) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get(`http://localhost:8888/api/v1/product/${id}`);
+      const response = await axiosInstance.get(apiRoutes.PRODUCT.GET_PRODUCT.replace(':id', id));
+
       dispatch(slice.actions.getProductSuccess(response?.data?.data));
     } catch (error) {
       console.error(error);
@@ -284,7 +286,10 @@ export function addProductToCart(productId, quantity = 1) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.post('http://localhost:8888/api/v1/cart', { productId, quantity });
+      const response = await axiosInstance.post(apiRoutes.CART.ADD_CART, {
+        productId,
+        quantity,
+      });
       dispatch(slice.actions.addCart(response.data.data));
       dispatch(slice.actions.setLoader(false));
     } catch (error) {
@@ -299,7 +304,11 @@ export function removeProductFromCart(productId) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.delete('http://localhost:8888/api/v1/cart', { data: { productId } });
+      const response = await axiosInstance.delete(apiRoutes.CART.REMOVE_CART, {
+        data: {
+          productId,
+        },
+      });
       dispatch(slice.actions.deleteCart(productId));
       dispatch(slice.actions.setLoader(false));
     } catch (error) {
@@ -314,7 +323,7 @@ export function fetchCart() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('http://localhost:8888/api/v1/cart');
+      const response = await axiosInstance.get(apiRoutes.CART.GET_CART);
       console.log('response :>> ', response);
       dispatch(slice.actions.getCart(response.data.data.items));
       dispatch(slice.actions.setLoader(false));
@@ -330,7 +339,7 @@ export function incrementProductQuantity(productId) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.post('http://localhost:8888/api/v1/cart/increment', { productId });
+      const response = await axiosInstance.post(apiRoutes.CART.CART_INCREMENT, { productId });
       dispatch(slice.actions.increaseQuantity(productId));
       dispatch(slice.actions.setLoader(false));
     } catch (error) {
@@ -345,7 +354,7 @@ export function decrementProductQuantity(productId) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.post('http://localhost:8888/api/v1/cart/decrement', { productId });
+      const response = await axiosInstance.post(apiRoutes.CART.CART_DECREMENT, { productId });
       dispatch(slice.actions.decreaseQuantity(productId));
       dispatch(slice.actions.setLoader(false));
     } catch (error) {

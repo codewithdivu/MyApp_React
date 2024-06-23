@@ -117,15 +117,9 @@ const ProductDetails = () => {
   const onSubmit = async (data) => {
     try {
       if (!alreadyProduct) {
-        // handleAddCart({
-        //   ...product,
-        //   // subtotal: product.price * data.quantity,
-        //   available: product.quantity,
-        //   quantity: data.quantity,
-        // });
         await dispatch(addProductToCart(product?._id, data?.quantity));
       }
-      navigate('/dashboard/checkout');
+      navigate(PATH_DASHBOARD.general.checkout);
     } catch (error) {
       console.error(error);
     }
@@ -133,19 +127,11 @@ const ProductDetails = () => {
 
   const handleAddToCart = async () => {
     try {
-      // handleAddCart({
-      //   ...product,
-      //   // subtotal: product.price * values.quantity,
-      //   available: product.quantity,
-      //   quantity: values.quantity,
-      // });
-
       if (isThere) {
-        navigate('/dashboard/checkout');
+        navigate(PATH_DASHBOARD.general.checkout);
         return;
       }
       await dispatch(addProductToCart(product?._id, values?.quantity));
-      // window.location.reload();
     } catch (error) {
       console.error(error);
     }

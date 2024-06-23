@@ -2,9 +2,10 @@ import { createContext, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import jwtDecode from 'jwt-decode';
 // utils
-import axios from '../utils/axios';
+import axiosInstance from '../utils/axios';
 import { isValidToken, setSession } from '../utils/jwt';
 import { HOST_API } from '../config';
+import { apiRoutes } from '../constants/apiRoutes';
 
 // ----------------------------------------------------------------------
 
@@ -78,7 +79,7 @@ function AuthProvider({ children }) {
 
           const decoded = jwtDecode(accessToken);
           const userId = decoded?.userId;
-          const response = await axios.get(`${HOST_API}/user/${userId}`);
+          const response = await axiosInstance.get(apiRoutes.USER.GET_USER.replace(':id', userId));
           const { data: user } = response.data;
 
           dispatch({
@@ -113,7 +114,8 @@ function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    const response = await axios.post(`${HOST_API}/auth/login`, {
+   
+    const response = await axiosInstance.post(apiRoutes.AUTH.LOGIN, {
       email,
       password,
     });
@@ -130,7 +132,7 @@ function AuthProvider({ children }) {
   };
 
   const register = async (email, password, name, username) => {
-    const response = await axios.post(`${HOST_API}/auth/register`, {
+    const response = await axiosInstance.post(apiRoutes.AUTH.REGISTRATION, {
       email,
       password,
       name,

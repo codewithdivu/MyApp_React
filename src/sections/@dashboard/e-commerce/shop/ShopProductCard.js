@@ -23,7 +23,7 @@ ShopProductCard.propTypes = {
 export default function ShopProductCard({ product }) {
   const { name, cover, price, inStock: status, _id } = product;
 
-  const linkTo = `${product._id}`;
+  const linkTo = PATH_DASHBOARD.general.product(product._id);
 
   const handleAddCart = async (id) => {
     try {
@@ -61,9 +61,7 @@ export default function ShopProductCard({ product }) {
         </Link>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          {/* <ColorPreview colors={colors} /> */}
           <Button onClick={() => handleAddCart(_id)}>Add To Cart</Button>
-
           <Stack direction="row" spacing={0.5}>
             <Typography variant="subtitle1">{fCurrency(price)}</Typography>
           </Stack>

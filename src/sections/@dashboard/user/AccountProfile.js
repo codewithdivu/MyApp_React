@@ -31,6 +31,8 @@ import uuidv4 from '../../../utils/uuidv4';
 import { uploadFile } from '../../../services/storage';
 import { USER_STATUS } from '../../../constants/keywords';
 import { addStoryItem } from '../../../services/addServices';
+import axiosInstance from '../../../utils/axios';
+import { apiRoutes } from '../../../constants/apiRoutes';
 
 // ----------------------------------------------------------------------
 
@@ -73,29 +75,22 @@ export default function AccountProfile({ isModelOpen, setIsOpenModel }) {
     try {
       let profilePic;
       if (data?.photoURL != null) {
-        const token = uuidv4();
-        // profilePic = await uploadFile(data.photoURL, `ProfilePics/${token}`);
         const formData = new FormData();
         formData.append('profilePic', data?.photoURL);
-        const res = await axios.post('http://localhost:8888/api/v1/user/profilePic', formData, 'multipart/form-data');
-        console.log('profilePic :>> ', res?.data?.data);
+        const res = await axiosInstance.post(apiRoutes.USER.UPLOAD_PROFILE_PIC, formData, 'multipart/form-data');
         profilePic = res?.data?.data;
       }
 
       const { name, username } = data;
 
-      const response = await axios.patch(
-        `http://localhost:8888/api/v1/user/${user?._id}/updateProfile`,
-        {
-          id: user?._id,
-          name,
-          username,
-          photoURL: profilePic,
-        },
-        {
-          id: user?._id,
-        }
-      );
+
+      const response = await axiosInstance.patch(apiRoutes.USER.UPDATE_PROFILE.replace(':id', user?._id), {
+        name,
+        username,
+        photoURL: profilePic,
+      });
+
+  
       console.log('response :>> ', response);
       enqueueSnackbar('Updated success!');
     } catch (error) {
