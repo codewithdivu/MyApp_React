@@ -1,4 +1,8 @@
+import { useEffect } from 'react';
+
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+
 // @mui
 import { styled } from '@mui/material/styles';
 import {
@@ -19,6 +23,7 @@ import { fCurrency } from '../../../../utils/formatNumber';
 // components
 import Image from '../../../../components/Image';
 import Iconify from '../../../../components/Iconify';
+import useIsMountedRef from '../../../../hooks/useIsMountedRef';
 
 // ----------------------------------------------------------------------
 
@@ -56,8 +61,9 @@ export default function CheckoutProductList({ products, onDelete, onIncreaseQuan
         </TableHead>
 
         <TableBody>
-          {products.map((product) => {
+          {products?.map((product) => {
             const { _id, name, size, price, color, cover, quantity, available } = product;
+            console.log('product :>> ', product);
             return (
               <TableRow key={_id}>
                 <TableCell>

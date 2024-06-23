@@ -79,26 +79,27 @@ export default function Register() {
           )}
         </HeaderStyle>
 
-        {/* {mdUp && (
+        {mdUp && (
           <SectionStyle>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Sign up with C
+              Sign up with MyApp
             </Typography>
             <Image
               visibleByDefault
               disabledEffect
               alt="register"
-              src="https://minimals.cc/assets/illustrations/illustration_dashboard.png"
+              // src="https://minimals.cc/assets/illustrations/illustration_dashboard.png"
+              src="/images/illustration_register.jpg"
             />
           </SectionStyle>
-        )} */}
+        )}
 
         <Container>
           <ContentStyle>
             <Box sx={{ mb: 5, display: 'flex', alignItems: 'center' }}>
               <Box sx={{ flexGrow: 1 }}>
                 <Typography variant="h4" gutterBottom>
-                  TEST PAPER CURATOR REGISTRATION FORM
+                  MyApp Registration
                 </Typography>
               </Box>
             </Box>

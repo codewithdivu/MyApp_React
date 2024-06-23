@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { Box, Grid, Card, Stack, Typography, MenuItem } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import axios from 'axios';
 // hooks
 import useAuth from '../../../hooks/useAuth';
 // utils
@@ -38,6 +39,7 @@ export default function AccountProfile({ isModelOpen, setIsOpenModel }) {
 
   const navigate = useNavigate();
   const { user, updateProfile } = useAuth();
+  console.log('user :>> ', user);
 
   const UpdateUserSchema = Yup.object().shape({
     name: Yup.string()
@@ -70,25 +72,31 @@ export default function AccountProfile({ isModelOpen, setIsOpenModel }) {
   const onSubmit = async (data) => {
     try {
       let profilePic;
-      console.log('data :>> ', data);
       if (data?.photoURL != null) {
         const token = uuidv4();
-        profilePic = await uploadFile(data.photoURL, `ProfilePics/${token}`);
+        // profilePic = await uploadFile(data.photoURL, `ProfilePics/${token}`);
+        const formData = new FormData();
+        formData.append('profilePic', data?.photoURL);
+        const res = await axios.post('http://localhost:8888/api/v1/user/profilePic', formData, 'multipart/form-data');
+        console.log('profilePic :>> ', res?.data?.data);
+        profilePic = res?.data?.data;
       }
 
-      const payload = {
-        ...data,
-        designation: 'user',
-        status: USER_STATUS.ACTIVE,
-        uid: user?.id,
-        email: user?.email,
-        photoURL: profilePic,
-      };
+      const { name, username } = data;
 
-      await addStoryItem(FIREBASE_COLLECTIONS.users, payload, user?.id);
-
-      await updateProfile(user?.id);
-
+      const response = await axios.patch(
+        `http://localhost:8888/api/v1/user/${user?._id}/updateProfile`,
+        {
+          id: user?._id,
+          name,
+          username,
+          photoURL: profilePic,
+        },
+        {
+          id: user?._id,
+        }
+      );
+      console.log('response :>> ', response);
       enqueueSnackbar('Updated success!');
     } catch (error) {
       console.error(error);

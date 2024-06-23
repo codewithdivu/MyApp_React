@@ -10,6 +10,9 @@ import {
   applyDiscount,
   increaseQuantity,
   decreaseQuantity,
+  removeProductFromCart,
+  incrementProductQuantity,
+  decrementProductQuantity,
 } from '../../../../redux/slices/product';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
@@ -29,25 +32,29 @@ export default function CheckoutCart() {
   const { checkout } = useSelector((state) => state.product);
 
   const { cart, total, discount, subtotal } = checkout;
+  console.log('cart :>> ', cart);
 
   const totalItems = sum(cart.map((item) => item.quantity));
 
   const isEmptyCart = cart.length === 0;
 
-  const handleDeleteCart = (productId) => {
-    dispatch(deleteCart(productId));
+  const handleDeleteCart = async (productId) => {
+    // dispatch(deleteCart(productId));
+    await dispatch(removeProductFromCart(productId));
   };
 
   const handleNextStep = () => {
     dispatch(onNextStep());
   };
 
-  const handleIncreaseQuantity = (productId) => {
-    dispatch(increaseQuantity(productId));
+  const handleIncreaseQuantity = async (productId) => {
+    // dispatch(increaseQuantity(productId));
+    await dispatch(incrementProductQuantity(productId));
   };
 
-  const handleDecreaseQuantity = (productId) => {
-    dispatch(decreaseQuantity(productId));
+  const handleDecreaseQuantity = async (productId) => {
+    // dispatch(decreaseQuantity(productId));
+    await dispatch(decrementProductQuantity(productId));
   };
 
   const handleApplyDiscount = (value) => {

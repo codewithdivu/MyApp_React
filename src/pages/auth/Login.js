@@ -86,7 +86,8 @@ export default function Login() {
               visibleByDefault
               disabledEffect
               alt="login"
-              src="https://minimals.cc/assets/illustrations/illustration_dashboard.png"
+              // src="https://minimals.cc/assets/illustrations/illustration_dashboard.png"
+              src="/images/illustration_login.png"
             />
           </SectionStyle>
         )}
@@ -96,7 +97,7 @@ export default function Login() {
             <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
               <Box sx={{ flexGrow: 1 }}>
                 <Typography variant="h4" gutterBottom>
-                  Sign in to TPC
+                  Sign in to MyApp
                 </Typography>
                 <Typography sx={{ color: 'text.secondary' }}>Enter your details below.</Typography>
               </Box>

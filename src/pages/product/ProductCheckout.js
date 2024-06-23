@@ -15,9 +15,8 @@ import {
   CheckoutPayment,
 } from '../../sections/@dashboard/e-commerce/checkout';
 import useIsMountedRef from '../../hooks/useIsMountedRef';
-import { getCart } from '../../redux/slices/product';
+import { fetchCart, getCart } from '../../redux/slices/product';
 import Iconify from '../../components/Iconify';
-
 
 const STEPS = ['Cart', 'Billing & address', 'Payment'];
 
@@ -80,10 +79,15 @@ const ProductCheckOut = () => {
   const isComplete = activeStep === STEPS.length;
 
   useEffect(() => {
-    if (isMountedRef.current) {
-      dispatch(getCart(cart));
-    }
-  }, [dispatch, isMountedRef, cart]);
+    const fetchData = async () => {
+      if (isMountedRef.current) {
+        // dispatch(getCart(cart));
+        const data = await dispatch(fetchCart());
+      }
+    };
+
+    fetchData();
+  }, [dispatch, isMountedRef]);
 
   return (
     <Page title="Products: Checkout">

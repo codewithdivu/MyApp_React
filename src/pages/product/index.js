@@ -10,7 +10,7 @@ import CartWidget from '../../sections/@dashboard/e-commerce/CartWidget';
 import { ShopProductCard, ShopProductSearch, ShopProductSort } from '../../sections/@dashboard/e-commerce/shop';
 import { FormProvider } from '../../components/hook-form';
 import { SkeletonProductItem } from '../../components/skeleton';
-import { getProducts } from '../../redux/slices/product';
+import { fetchCart, getProducts } from '../../redux/slices/product';
 
 const ProductList = () => {
   const { themeStretch } = useSettings();
@@ -19,6 +19,14 @@ const ProductList = () => {
 
   useEffect(() => {
     dispatch(getProducts());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await dispatch(fetchCart());
+    };
+
+    fetchData();
   }, [dispatch]);
 
   const product = {

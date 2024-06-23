@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 // @mui
 import { styled, useTheme } from '@mui/material/styles';
 import { Box, Button, AppBar, Toolbar, Container, Stack, Badge } from '@mui/material';
@@ -78,7 +78,7 @@ export default function MainHeader() {
           <Logo />
 
           <Label color="info" sx={{ ml: 1 }}>
-            v3.3.0
+            v1.0.0
           </Label>
           <Box sx={{ flexGrow: 1 }} />
 
@@ -91,7 +91,7 @@ export default function MainHeader() {
             href="https://material-ui.com/store/items/minimal-dashboard/"
           >
             Purchase Now
-          </Button> */}
+            </Button> */}
 
           <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }} mt={1}>
             {/* <LanguagePopover /> */}

@@ -3,6 +3,8 @@ import { paramCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Box, Card, Link, Typography, Stack, Button } from '@mui/material';
+import { dispatch } from '../../../../redux/store';
+import { addProductToCart } from '../../../../redux/slices/product';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // utils
@@ -19,9 +21,17 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({ product }) {
-  const { name, cover, price, inStock: status } = product;
+  const { name, cover, price, inStock: status, _id } = product;
 
   const linkTo = `${product._id}`;
+
+  const handleAddCart = async (id) => {
+    try {
+      await dispatch(addProductToCart(id));
+    } catch (error) {
+      console.log('error :>> ', error);
+    }
+  };
 
   return (
     <Card>
@@ -52,7 +62,7 @@ export default function ShopProductCard({ product }) {
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           {/* <ColorPreview colors={colors} /> */}
-          <Button>Add To Cart</Button>
+          <Button onClick={() => handleAddCart(_id)}>Add To Cart</Button>
 
           <Stack direction="row" spacing={0.5}>
             <Typography variant="subtitle1">{fCurrency(price)}</Typography>

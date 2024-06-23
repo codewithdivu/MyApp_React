@@ -58,6 +58,10 @@ const slice = createSlice({
       state.isLoading = false;
       state.product = action.payload;
     },
+    //
+    setLoader(state, action) {
+      state.isLoading = action.payload;
+    },
 
     //  SORT & FILTER PRODUCTS
     sortByProducts(state, action) {
@@ -75,6 +79,7 @@ const slice = createSlice({
     // CHECKOUT
     getCart(state, action) {
       const cart = action.payload;
+      console.log('action.payload :>> ', action.payload);
 
       const subtotal = sum(cart.map((cartItem) => cartItem.price * cartItem.quantity));
       const discount = cart.length === 0 ? 0 : state.checkout.discount;
@@ -112,6 +117,18 @@ const slice = createSlice({
 
     deleteCart(state, action) {
       const updateCart = state.checkout.cart.filter((item) => item._id !== action.payload);
+
+      const subtotal = sum(updateCart.map((cartItem) => cartItem.price * cartItem.quantity));
+      const discount = updateCart.length === 0 ? 0 : state.checkout.discount;
+      const shipping = updateCart.length === 0 ? 0 : state.checkout.shipping;
+      const billing = updateCart.length === 0 ? null : state.checkout.billing;
+
+      state.checkout.updateCart = updateCart;
+      state.checkout.discount = discount;
+      state.checkout.shipping = shipping;
+      state.checkout.billing = billing;
+      state.checkout.subtotal = subtotal;
+      state.checkout.total = subtotal - discount;
 
       state.checkout.cart = updateCart;
     },
@@ -151,6 +168,18 @@ const slice = createSlice({
         return product;
       });
 
+      const subtotal = sum(updateCart.map((cartItem) => cartItem.price * cartItem.quantity));
+      const discount = updateCart.length === 0 ? 0 : state.checkout.discount;
+      const shipping = updateCart.length === 0 ? 0 : state.checkout.shipping;
+      const billing = updateCart.length === 0 ? null : state.checkout.billing;
+
+      state.checkout.updateCart = updateCart;
+      state.checkout.discount = discount;
+      state.checkout.shipping = shipping;
+      state.checkout.billing = billing;
+      state.checkout.subtotal = subtotal;
+      state.checkout.total = subtotal - discount;
+
       state.checkout.cart = updateCart;
     },
 
@@ -165,6 +194,18 @@ const slice = createSlice({
         }
         return product;
       });
+
+      const subtotal = sum(updateCart.map((cartItem) => cartItem.price * cartItem.quantity));
+      const discount = updateCart.length === 0 ? 0 : state.checkout.discount;
+      const shipping = updateCart.length === 0 ? 0 : state.checkout.shipping;
+      const billing = updateCart.length === 0 ? null : state.checkout.billing;
+
+      state.checkout.updateCart = updateCart;
+      state.checkout.discount = discount;
+      state.checkout.shipping = shipping;
+      state.checkout.billing = billing;
+      state.checkout.subtotal = subtotal;
+      state.checkout.total = subtotal - discount;
 
       state.checkout.cart = updateCart;
     },
@@ -245,6 +286,7 @@ export function addProductToCart(productId, quantity = 1) {
     try {
       const response = await axios.post('http://localhost:8888/api/v1/cart', { productId, quantity });
       dispatch(slice.actions.addCart(response.data.data));
+      dispatch(slice.actions.setLoader(false));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -259,6 +301,7 @@ export function removeProductFromCart(productId) {
     try {
       const response = await axios.delete('http://localhost:8888/api/v1/cart', { data: { productId } });
       dispatch(slice.actions.deleteCart(productId));
+      dispatch(slice.actions.setLoader(false));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -272,7 +315,9 @@ export function fetchCart() {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get('http://localhost:8888/api/v1/cart');
+      console.log('response :>> ', response);
       dispatch(slice.actions.getCart(response.data.data.items));
+      dispatch(slice.actions.setLoader(false));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -287,6 +332,7 @@ export function incrementProductQuantity(productId) {
     try {
       const response = await axios.post('http://localhost:8888/api/v1/cart/increment', { productId });
       dispatch(slice.actions.increaseQuantity(productId));
+      dispatch(slice.actions.setLoader(false));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -301,6 +347,7 @@ export function decrementProductQuantity(productId) {
     try {
       const response = await axios.post('http://localhost:8888/api/v1/cart/decrement', { productId });
       dispatch(slice.actions.decreaseQuantity(productId));
+      dispatch(slice.actions.setLoader(false));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

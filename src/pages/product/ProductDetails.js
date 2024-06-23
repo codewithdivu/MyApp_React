@@ -29,7 +29,7 @@ import Markdown from '../../components/Markdown';
 import Label from '../../components/Label';
 import { fCurrency } from '../../utils/formatNumber';
 import { ProductDetailsCarousel } from '../../sections/@dashboard/e-commerce/product-details';
-import { addCart, getProduct, getProducts } from '../../redux/slices/product';
+import { addCart, addProductToCart, fetchCart, getProduct, getProducts } from '../../redux/slices/product';
 import { FormProvider } from '../../components/hook-form';
 
 const PRODUCT_DESCRIPTION = [
@@ -79,6 +79,8 @@ const ProductDetails = () => {
   const { product, isLoading, error, checkout } = useSelector((state) => state.product);
   console.log('checkout :>> ', checkout);
 
+  const isThere = checkout?.cart?.some((item) => item._id === id);
+
   useEffect(() => {
     dispatch(getProduct(id));
   }, [dispatch, id]);
@@ -86,6 +88,14 @@ const ProductDetails = () => {
   const handleAddCart = (product) => {
     dispatch(addCart(product));
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await dispatch(fetchCart());
+    };
+
+    fetchData();
+  }, [dispatch]);
 
   const alreadyProduct = checkout.cart.map((item) => item._id).includes(id);
 
@@ -107,12 +117,13 @@ const ProductDetails = () => {
   const onSubmit = async (data) => {
     try {
       if (!alreadyProduct) {
-        handleAddCart({
-          ...product,
-          // subtotal: product.price * data.quantity,
-          available: product.quantity,
-          quantity: data.quantity,
-        });
+        // handleAddCart({
+        //   ...product,
+        //   // subtotal: product.price * data.quantity,
+        //   available: product.quantity,
+        //   quantity: data.quantity,
+        // });
+        await dispatch(addProductToCart(product?._id, data?.quantity));
       }
       navigate('/dashboard/checkout');
     } catch (error) {
@@ -122,12 +133,19 @@ const ProductDetails = () => {
 
   const handleAddToCart = async () => {
     try {
-      handleAddCart({
-        ...product,
-        // subtotal: product.price * values.quantity,
-        available: product.quantity,
-        quantity: values.quantity,
-      });
+      // handleAddCart({
+      //   ...product,
+      //   // subtotal: product.price * values.quantity,
+      //   available: product.quantity,
+      //   quantity: values.quantity,
+      // });
+
+      if (isThere) {
+        navigate('/dashboard/checkout');
+        return;
+      }
+      await dispatch(addProductToCart(product?._id, values?.quantity));
+      // window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -223,7 +241,7 @@ const ProductDetails = () => {
                           onClick={handleAddToCart}
                           sx={{ whiteSpace: 'nowrap' }}
                         >
-                          Add to Cart
+                          {isThere ? 'View Cart' : 'Add To Cart'}
                         </Button>
 
                         <Button fullWidth size="large" type="submit" variant="contained">
