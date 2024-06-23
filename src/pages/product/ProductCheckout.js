@@ -85,13 +85,13 @@ const ProductCheckOut = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (isMountedRef.current) {
-        await dispatch(fetchCart());
-      }
+      // if (isMountedRef.current) {
+      await dispatch(fetchCart());
+      // }
     };
 
     fetchData();
-  }, [dispatch, isMountedRef]);
+  }, []);
 
   return (
     <Page title="Products: Checkout">

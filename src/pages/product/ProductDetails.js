@@ -136,6 +136,7 @@ const ProductDetails = () => {
         return;
       }
       await dispatch(addProductToCart(product?._id, values?.quantity));
+      navigate(PATH_DASHBOARD.general.checkout);
     } catch (error) {
       console.error(error);
     }

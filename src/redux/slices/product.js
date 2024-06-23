@@ -290,7 +290,8 @@ export function addProductToCart(productId, quantity = 1) {
         productId,
         quantity,
       });
-      dispatch(slice.actions.addCart(response.data.data));
+      console.log('response----- :>> ', response);
+      dispatch(slice.actions.addCart(response.data.data.items));
       dispatch(slice.actions.setLoader(false));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

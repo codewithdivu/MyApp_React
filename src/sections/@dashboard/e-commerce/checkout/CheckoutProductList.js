@@ -61,68 +61,74 @@ export default function CheckoutProductList({ products, onDelete, onIncreaseQuan
         </TableHead>
 
         <TableBody>
-          {products?.map((product) => {
-            const { _id, name, size, price, color, cover, quantity, available } = product;
-            console.log('product :>> ', product);
-            return (
-              <TableRow key={_id}>
-                <TableCell>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Image
-                      alt="product image"
-                      src={product?.images[0]}
-                      sx={{ width: 64, height: 64, borderRadius: 1.5, mr: 2 }}
-                    />
-                    <Box>
-                      <Typography noWrap variant="subtitle2" sx={{ maxWidth: 240 }}>
-                        {name}
-                      </Typography>
+          {products &&
+            products.length > 0 &&
+            products?.map((product) => {
+              const { _id, name, size, price, color, cover, quantity, available, images } = product;
 
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <Typography variant="body2">
-                          <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
-                            size:&nbsp;
+              if (product?._id) {
+                console.log('product :>> ', product);
+                return (
+                  <TableRow key={_id}>
+                    <TableCell>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Image
+                          alt="product image"
+                          src={images[0]}
+                          sx={{ width: 64, height: 64, borderRadius: 1.5, mr: 2 }}
+                        />
+                        <Box>
+                          <Typography noWrap variant="subtitle2" sx={{ maxWidth: 240 }}>
+                            {name}
                           </Typography>
-                          {size}
-                        </Typography>
-                        <Divider orientation="vertical" sx={{ mx: 1, height: 16 }} />
-                        <Typography variant="body2">
-                          <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
-                            color:&nbsp;
-                          </Typography>
-                          {getColorName(color)}
-                        </Typography>
+
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <Typography variant="body2">
+                              <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
+                                size:&nbsp;
+                              </Typography>
+                              {size}
+                            </Typography>
+                            <Divider orientation="vertical" sx={{ mx: 1, height: 16 }} />
+                            <Typography variant="body2">
+                              <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
+                                color:&nbsp;
+                              </Typography>
+                              {getColorName(color)}
+                            </Typography>
+                          </Box>
+                        </Box>
                       </Box>
-                    </Box>
-                  </Box>
-                </TableCell>
+                    </TableCell>
 
-                <TableCell align="left">{fCurrency(price)}</TableCell>
+                    <TableCell align="left">{fCurrency(price)}</TableCell>
 
-                <TableCell align="left">
-                  <Incrementer
-                    quantity={quantity}
-                    available={available}
-                    onDecrease={() => onDecreaseQuantity(_id)}
-                    onIncrease={() => onIncreaseQuantity(_id)}
-                  />
-                </TableCell>
+                    <TableCell align="left">
+                      <Incrementer
+                        quantity={quantity}
+                        available={available}
+                        onDecrease={() => onDecreaseQuantity(_id)}
+                        onIncrease={() => onIncreaseQuantity(_id)}
+                      />
+                    </TableCell>
 
-                <TableCell align="right">{fCurrency(price * quantity)}</TableCell>
+                    <TableCell align="right">{fCurrency(price * quantity)}</TableCell>
 
-                <TableCell align="right">
-                  <IconButton onClick={() => onDelete(_id)}>
-                    <Iconify icon={'eva:trash-2-outline'} width={20} height={20} />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            );
-          })}
+                    <TableCell align="right">
+                      <IconButton onClick={() => onDelete(_id)}>
+                        <Iconify icon={'eva:trash-2-outline'} width={20} height={20} />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                );
+              }
+              return null;
+            })}
         </TableBody>
       </Table>
     </TableContainer>
