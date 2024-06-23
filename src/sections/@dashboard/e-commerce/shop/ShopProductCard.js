@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { paramCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 // @mui
 import { Box, Card, Link, Typography, Stack, Button } from '@mui/material';
 import { dispatch } from '../../../../redux/store';
@@ -21,6 +22,8 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({ product }) {
+  const { enqueueSnackbar } = useSnackbar();
+
   const { name, cover, price, inStock: status, _id } = product;
 
   const linkTo = PATH_DASHBOARD.general.product(product._id);
@@ -28,8 +31,10 @@ export default function ShopProductCard({ product }) {
   const handleAddCart = async (id) => {
     try {
       await dispatch(addProductToCart(id));
+      enqueueSnackbar('Product added Successfully.');
     } catch (error) {
       console.log('error :>> ', error);
+      enqueueSnackbar(error?.msg, { variant: 'error' });
     }
   };
 

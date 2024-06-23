@@ -98,22 +98,23 @@ const slice = createSlice({
     addCart(state, action) {
       const product = action.payload;
       const isEmptyCart = state.checkout.cart.length === 0;
+      state.checkout.cart = action.payload;
 
-      if (isEmptyCart) {
-        state.checkout.cart = [...state.checkout.cart, product];
-      } else {
-        state.checkout.cart = state.checkout.cart.map((_product) => {
-          const isExisted = _product._id === product._id;
-          if (isExisted) {
-            return {
-              ..._product,
-              quantity: _product.quantity + 1,
-            };
-          }
-          return _product;
-        });
-      }
-      state.checkout.cart = uniqBy([...state.checkout.cart, product], '_id');
+      // if (isEmptyCart) {
+      //   state.checkout.cart = [...state.checkout.cart, product];
+      // } else {
+      //   state.checkout.cart = state.checkout.cart.map((_product) => {
+      //     const isExisted = _product._id === product._id;
+      //     if (isExisted) {
+      //       return {
+      //         ..._product,
+      //         quantity: _product.quantity + 1,
+      //       };
+      //     }
+      //     return _product;
+      //   });
+      // }
+      // state.checkout.cart = uniqBy([...state.checkout.cart, product], '_id');
     },
 
     deleteCart(state, action) {

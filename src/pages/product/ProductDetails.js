@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
+import { useSnackbar } from 'notistack';
 // @mui
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -79,6 +80,7 @@ const RootStyle = styled('div')(({ theme }) => ({
 const ProductDetails = () => {
   const theme = useTheme();
   const { id } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { themeStretch } = useSettings();
@@ -88,10 +90,6 @@ const ProductDetails = () => {
   useEffect(() => {
     dispatch(getProduct(id));
   }, [dispatch, id]);
-
-  const handleAddCart = (product) => {
-    dispatch(addCart(product));
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -122,10 +120,14 @@ const ProductDetails = () => {
     try {
       if (!alreadyProduct) {
         await dispatch(addProductToCart(product?._id, data?.quantity));
+        enqueueSnackbar('Product added successfully.');
       }
       navigate(PATH_DASHBOARD.general.checkout);
     } catch (error) {
       console.error(error);
+      enqueueSnackbar(error?.msg, {
+        variant: 'error',
+      });
     }
   };
 
@@ -136,9 +138,13 @@ const ProductDetails = () => {
         return;
       }
       await dispatch(addProductToCart(product?._id, values?.quantity));
+      enqueueSnackbar('Product added successfully.');
       navigate(PATH_DASHBOARD.general.checkout);
     } catch (error) {
       console.error(error);
+      enqueueSnackbar(error?.msg, {
+        variant: 'error',
+      });
     }
   };
 

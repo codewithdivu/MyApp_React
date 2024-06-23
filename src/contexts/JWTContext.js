@@ -6,6 +6,7 @@ import axiosInstance from '../utils/axios';
 import { isValidToken, setSession } from '../utils/jwt';
 import { HOST_API } from '../config';
 import { apiRoutes } from '../constants/apiRoutes';
+import { fetchCart } from '../redux/slices/product';
 
 // ----------------------------------------------------------------------
 
@@ -82,6 +83,8 @@ function AuthProvider({ children }) {
           const response = await axiosInstance.get(apiRoutes.USER.GET_USER.replace(':id', userId));
           const { data: user } = response.data;
 
+          // await dispatch(fetchCart());
+
           dispatch({
             type: 'INITIALIZE',
             payload: {
@@ -114,7 +117,6 @@ function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-   
     const response = await axiosInstance.post(apiRoutes.AUTH.LOGIN, {
       email,
       password,

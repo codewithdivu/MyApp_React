@@ -28,7 +28,7 @@ export const _faqs = [...Array(8)].map((_, index) => ({
 
 // ----------------------------------------------------------------------
 
-export const _addressBooks = [...Array(5)].map((_, index) => ({
+export const _addressBooks = [...Array(1)].map((_, index) => ({
   id: _mock.id(index),
   receiver: _mock.name.fullName(index),
   fullAddress: _mock.address.fullAddress(index),

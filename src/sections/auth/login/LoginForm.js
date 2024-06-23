@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useSnackbar } from 'notistack';
 import { Link, Stack, Alert, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { PATH_AUTH } from '../../../routes/paths';
@@ -13,6 +14,8 @@ import { FormProvider, RHFTextField } from '../../../components/hook-form';
 import { PATH_AFTER_LOGIN } from '../../../config';
 
 export default function LoginForm() {
+  const { enqueueSnackbar } = useSnackbar();
+
   // Config
   const LoginSchema = Yup.object()
     .shape({
@@ -53,14 +56,15 @@ export default function LoginForm() {
   // Handlers
   const onSubmit = async (data) => {
     try {
-      console.log('data :>> ', data);
       await login(data.email, data.password);
+      enqueueSnackbar('Login Successfully.');
       navigate(PATH_AFTER_LOGIN);
     } catch (error) {
       reset();
       if (isMountedRef.current) {
         setError('afterSubmit', { ...error, message: error.message });
       }
+      enqueueSnackbar(error.msg, { variant: 'error' });
     }
   };
 

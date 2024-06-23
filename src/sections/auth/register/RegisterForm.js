@@ -21,6 +21,8 @@ import { PATH_AUTH, PATH_DASHBOARD } from '../../../routes/paths';
 
 export default function RegisterForm() {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+
   // Config
   const RegisterSchema = Yup.object()
     .shape({
@@ -51,7 +53,6 @@ export default function RegisterForm() {
     resolver: yupResolver(RegisterSchema),
     defaultValues,
   });
-  const { enqueueSnackbar } = useSnackbar();
   const { data } = useFirebaseData(FIREBASE_COLLECTIONS.schools, [
     { property: 'isActive', operator: FIREBASE_OPERATORS.EQUAL_TO, value: true },
   ]);
@@ -78,12 +79,16 @@ export default function RegisterForm() {
   const onSubmit = async (formData) => {
     try {
       await register(formData.email, formData.password, formData.name, formData.username);
+      enqueueSnackbar('User Registered successfully.');
       navigate(PATH_AUTH.login);
     } catch (error) {
       reset();
       if (isMountedRef.current) {
         setError('afterSubmit', { ...error, message: error.message });
       }
+      enqueueSnackbar(error?.msg, {
+        variant: 'error',
+      });
     }
   };
 

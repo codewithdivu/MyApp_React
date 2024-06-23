@@ -1,5 +1,6 @@
 import sum from 'lodash/sum';
 import { Link as RouterLink } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 // @mui
 import { Grid, Card, Button, CardHeader, Typography } from '@mui/material';
 // redux
@@ -28,11 +29,11 @@ import CheckoutProductList from './CheckoutProductList';
 
 export default function CheckoutCart() {
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const { checkout } = useSelector((state) => state.product);
 
   const { cart, total, discount, subtotal } = checkout;
-  console.log('cart :>> ', cart);
 
   const totalItems = sum(cart.map((item) => item.quantity));
 
@@ -40,6 +41,7 @@ export default function CheckoutCart() {
 
   const handleDeleteCart = async (productId) => {
     await dispatch(removeProductFromCart(productId));
+    enqueueSnackbar('Product Deleted Successfully');
   };
 
   const handleNextStep = () => {
@@ -56,6 +58,7 @@ export default function CheckoutCart() {
 
   const handleApplyDiscount = (value) => {
     dispatch(applyDiscount(value));
+    enqueueSnackbar('Coupon Successfully Applied.');
   };
 
   return (

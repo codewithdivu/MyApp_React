@@ -57,9 +57,9 @@ const PAYMENT_OPTIONS = [
 ];
 
 const CARDS_OPTIONS = [
-  { value: 'ViSa1', label: '**** **** **** 1212 - Jimmy Holland' },
-  { value: 'ViSa2', label: '**** **** **** 2424 - Shawn Stokes' },
-  { value: 'MasterCard', label: '**** **** **** 4545 - Cole Armstrong' },
+  { value: 'ViSa1', label: '**** **** **** 1212 - Divyesh Mavadiya' },
+  { value: 'ViSa2', label: '**** **** **** 2424 - Milan Mavadiya' },
+  { value: 'MasterCard', label: '**** **** **** 4545 - Varsh Mavadiya' },
 ];
 
 export default function CheckoutPayment() {

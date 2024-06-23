@@ -51,6 +51,8 @@ export default function AccountPopover() {
   const handleLogout = async () => {
     try {
       await logout();
+      enqueueSnackbar('Logout Successfully.');
+
       navigate(PATH_AUTH.login, { replace: true });
 
       if (isMountedRef.current) {
