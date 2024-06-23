@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 // @mui
 import { styled, useTheme } from '@mui/material/styles';
-import { Box, Button, AppBar, Toolbar, Container, Stack, Badge } from '@mui/material';
+import { Box, Button, AppBar, Toolbar, Container, Stack, Badge, badgeClasses } from '@mui/material';
 // hooks
 import useOffSetTop from '../../hooks/useOffSetTop';
 import useResponsive from '../../hooks/useResponsive';
@@ -18,6 +18,8 @@ import MenuMobile from './MenuMobile';
 import navConfig from './MenuConfig';
 import AccountPopover from '../dashboard/header/AccountPopover';
 import Iconify from '../../components/Iconify';
+import { PATH_DASHBOARD } from '../../routes/paths';
+import NavDesktop from '../desktop/NavDesktop';
 // ----------------------------------------------------------------------
 
 const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
@@ -80,23 +82,13 @@ export default function MainHeader() {
           <Label color="info" sx={{ ml: 1 }}>
             v1.0.0
           </Label>
+
           <Box sx={{ flexGrow: 1 }} />
 
-          {isDesktop && <MenuDesktop isOffset={isOffset} isHome={isHome} navConfig={navConfig} />}
+          {/* {isDesktop && <MenuDesktop isOffset={isOffset} isHome={isHome} navConfig={navConfig} />} */}
+          {isDesktop && <NavDesktop data={navConfig} />}
 
-          {/* <Button
-            variant="contained"
-            target="_blank"
-            rel="noopener"
-            href="https://material-ui.com/store/items/minimal-dashboard/"
-          >
-            Purchase Now
-            </Button> */}
-
-          <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }} mt={1}>
-            {/* <LanguagePopover /> */}
-            {/* <NotificationsPopover /> */}
-            {/* <ContactsPopover /> */}
+          <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }} ml={5} mt={1}>
             <AccountPopover />
           </Stack>
 
