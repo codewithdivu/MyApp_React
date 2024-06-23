@@ -34,7 +34,7 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   // Hooks
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { login } = useAuth();
   const isMountedRef = useIsMountedRef();
   const methods = useForm({
@@ -55,7 +55,7 @@ export default function LoginForm() {
     try {
       console.log('data :>> ', data);
       await login(data.email, data.password);
-      navigate(PATH_AFTER_LOGIN)
+      navigate(PATH_AFTER_LOGIN);
     } catch (error) {
       reset();
       if (isMountedRef.current) {
@@ -86,7 +86,7 @@ export default function LoginForm() {
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        <Link component={RouterLink} variant="subtitle2" to={PATH_AUTH.resetPassword}>
+        <Link component={RouterLink} variant="subtitle2" to={PATH_AUTH.forgotPassword}>
           Forgot password?
         </Link>
       </Stack>
