@@ -33,6 +33,11 @@ const menuConfig = [
     icon: <Iconify icon={'eva:home-fill'} {...ICON_SIZE} />,
     path: PATH_PAGE.contact,
   },
+  {
+    title: 'About',
+    icon: <Iconify icon={'eva:home-fill'} {...ICON_SIZE} />,
+    path: PATH_PAGE.about,
+  },
   // {
   //   title: 'Pages',
   //   path: '/pages',
