@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
@@ -24,6 +24,9 @@ import { fCurrency } from '../../../../utils/formatNumber';
 import Image from '../../../../components/Image';
 import Iconify from '../../../../components/Iconify';
 import useIsMountedRef from '../../../../hooks/useIsMountedRef';
+import { getProducts } from '../../../../redux/slices/product';
+import axiosInstance from '../../../../utils/axios';
+import { apiRoutes } from '../../../../constants/apiRoutes';
 
 // ----------------------------------------------------------------------
 
@@ -47,7 +50,20 @@ CheckoutProductList.propTypes = {
 };
 
 export default function CheckoutProductList({ products, onDelete, onIncreaseQuantity, onDecreaseQuantity }) {
-  console.log('products :>> ', products);
+  const [realProducts, setRealProducts] = useState([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axiosInstance.get(apiRoutes.PRODUCT.GET_ALL_PRODUCT);
+        setRealProducts(response?.data?.data);
+        console.log('prod :>> ', response?.data?.data);
+      } catch (error) {
+        console.log('error :>> ', error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
   return (
     <TableContainer sx={{ minWidth: 720 }}>
       <Table>
@@ -91,7 +107,7 @@ export default function CheckoutProductList({ products, onDelete, onIncreaseQuan
                     <TableCell align="left">
                       <Incrementer
                         quantity={quantity}
-                        available={available}
+                        available={realProducts.find((item) => item?._id === _id)?.quantity}
                         onDecrease={() => onDecreaseQuantity(_id)}
                         onIncrease={() => onIncreaseQuantity(_id)}
                       />

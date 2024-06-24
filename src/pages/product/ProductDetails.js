@@ -230,18 +230,24 @@ const ProductDetails = () => {
                       <Stack direction="row" spacing={2} sx={{ mt: 5 }}>
                         <Button
                           fullWidth
-                          disabled={isMaxQuantity}
                           size="large"
                           color="warning"
                           variant="contained"
                           startIcon={<Iconify icon={'ic:round-add-shopping-cart'} />}
                           onClick={handleAddToCart}
                           sx={{ whiteSpace: 'nowrap' }}
+                          disabled={!product?.inStock || isMaxQuantity}
                         >
                           {isThere ? 'View Cart' : 'Add To Cart'}
                         </Button>
 
-                        <Button fullWidth size="large" type="submit" variant="contained">
+                        <Button
+                          fullWidth
+                          size="large"
+                          type="submit"
+                          variant="contained"
+                          disabled={!product?.inStock || isMaxQuantity}
+                        >
                           Buy Now
                         </Button>
                       </Stack>

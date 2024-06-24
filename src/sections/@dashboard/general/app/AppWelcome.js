@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Typography, Button, Card, CardContent } from '@mui/material';
 import { SeoIllustration } from '../../../../assets';
+import { PATH_DASHBOARD } from '../../../../routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -27,6 +28,7 @@ AppWelcome.propTypes = {
 };
 
 export default function AppWelcome({ displayName }) {
+  const navigate = useNavigate();
   return (
     <RootStyle>
       <CardContent
@@ -45,9 +47,9 @@ export default function AppWelcome({ displayName }) {
           MyApp
         </Typography>
 
-        {/* <Button variant="contained" to="#" component={RouterLink}>
-          Go Now
-        </Button> */}
+        <Button variant="contained" onClick={() => navigate(PATH_DASHBOARD.general.products)}>
+          Explore our Products
+        </Button>
       </CardContent>
 
       <SeoIllustration

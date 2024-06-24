@@ -55,14 +55,7 @@ export default function DashboardLayout() {
   if (verticalLayout) {
     return (
       <>
-        {/* <DashboardHeader onOpenSidebar={() => setOpen(true)} verticalLayout={verticalLayout} /> */}
         <MainHeader />
-
-        {/* {isDesktop ? (
-          <NavbarHorizontal />
-        ) : (
-          <NavbarVertical isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
-        )} */}
 
         <Box
           component="main"

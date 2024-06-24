@@ -109,9 +109,7 @@ export default function CheckoutPayment() {
 
   const onSubmit = async () => {
     try {
-      await dispatch(emptyCart());
       handleNextStep();
-      navigate(PATH_DASHBOARD.general.products);
     } catch (error) {
       console.error(error);
     }

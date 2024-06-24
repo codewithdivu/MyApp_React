@@ -66,7 +66,9 @@ export default function ShopProductCard({ product }) {
         </Link>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Button onClick={() => handleAddCart(_id)}>Add To Cart</Button>
+          <Button onClick={() => handleAddCart(_id)} disabled={!product?.inStock}>
+            Add To Cart
+          </Button>
           <Stack direction="row" spacing={0.5}>
             <Typography variant="subtitle1">{fCurrency(price)}</Typography>
           </Stack>
