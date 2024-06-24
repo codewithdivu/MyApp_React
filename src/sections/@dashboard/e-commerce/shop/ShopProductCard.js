@@ -55,7 +55,9 @@ export default function ShopProductCard({ product }) {
           {status ? 'InStock' : 'OutofStock'}
         </Label>
 
-        <Image alt={name} src={product?.images[0]} ratio="1/1" />
+        <Link to={linkTo} color="inherit" component={RouterLink}>
+          <Image alt={name} src={product?.images[0]} ratio="1/1" />
+        </Link>
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
