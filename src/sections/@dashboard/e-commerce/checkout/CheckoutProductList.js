@@ -81,27 +81,6 @@ export default function CheckoutProductList({ products, onDelete, onIncreaseQuan
                           <Typography noWrap variant="subtitle2" sx={{ maxWidth: 240 }}>
                             {name}
                           </Typography>
-
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              alignItems: 'center',
-                            }}
-                          >
-                            <Typography variant="body2">
-                              <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
-                                size:&nbsp;
-                              </Typography>
-                              {size}
-                            </Typography>
-                            <Divider orientation="vertical" sx={{ mx: 1, height: 16 }} />
-                            <Typography variant="body2">
-                              <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
-                                color:&nbsp;
-                              </Typography>
-                              {getColorName(color)}
-                            </Typography>
-                          </Box>
                         </Box>
                       </Box>
                     </TableCell>

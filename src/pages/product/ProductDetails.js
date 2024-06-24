@@ -156,7 +156,7 @@ const ProductDetails = () => {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.general.app },
             { name: 'Products', href: PATH_DASHBOARD.general.products },
-            { name: `${id}`, href: PATH_DASHBOARD.general.product(id) },
+            { name: `${product?.name}`, href: PATH_DASHBOARD.general.product(id) },
           ]}
         />
         {isLoading ? (

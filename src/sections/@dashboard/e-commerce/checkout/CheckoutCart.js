@@ -90,7 +90,6 @@ export default function CheckoutCart() {
             <EmptyContent
               title="Cart is empty"
               description="Look like you have no items in your shopping cart."
-              // img="https://minimal-assets-api.vercel.app/assets/illustrations/illustration_empty_cart.svg"
               img="/images/empty_cart.svg"
             />
           )}

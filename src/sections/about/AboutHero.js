@@ -11,7 +11,7 @@ const RootStyle = styled('div')(({ theme }) => ({
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundImage:
-    'url(https://img.freepik.com/premium-photo/pink-bokeh-glitter-sweet-background-graphic-design-illustration_1048944-27259135.jpg?w=1800), url(https://img.freepik.com/premium-photo/pink-bokeh-glitter-sweet-background-graphic-design-illustration_1048944-27259135.jpg?w=1800)',
+    'url(https://as2.ftcdn.net/v2/jpg/06/89/80/39/1000_F_689803949_zKV562QxMrzWRO3wL4VTqrgwPZw6XNw9.jpg), url(https://as2.ftcdn.net/v2/jpg/06/89/80/39/1000_F_689803949_zKV562QxMrzWRO3wL4VTqrgwPZw6XNw9.jpg)',
   padding: theme.spacing(10, 0),
   [theme.breakpoints.up('md')]: {
     height: 560,

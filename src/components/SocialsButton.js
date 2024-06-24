@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
-// @mui
-import { Link } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import { Stack, Button, Tooltip, IconButton } from '@mui/material';
-//
 import Iconify from './Iconify';
 
 // ----------------------------------------------------------------------
@@ -21,7 +18,7 @@ export default function SocialsButton({ initialColor = false, simple = true, lin
       name: 'FaceBook',
       icon: 'eva:facebook-fill',
       socialColor: '#1877F2',
-      path: links.facebook || 'www.google.com',
+      path: links.facebook || 'https://www.facebook.com/profile.php?id=100006345046345',
     },
     {
       name: 'Instagram',
@@ -48,7 +45,7 @@ export default function SocialsButton({ initialColor = false, simple = true, lin
       {SOCIALS.map((social) => {
         const { name, icon, path, socialColor } = social;
         return simple ? (
-          <Link key={name} to={path} target="_blank" rel="noopener noreferrer">
+          <a key={name} href={path} target="_blank" rel="noopener noreferrer">
             <Tooltip title={name} placement="top">
               <IconButton
                 color="inherit"
@@ -66,11 +63,13 @@ export default function SocialsButton({ initialColor = false, simple = true, lin
                 <Iconify icon={icon} sx={{ width: 20, height: 20 }} />
               </IconButton>
             </Tooltip>
-          </Link>
+          </a>
         ) : (
           <Button
             key={name}
             href={path}
+            target="_blank"
+            rel="noopener noreferrer"
             color="inherit"
             variant="outlined"
             size="small"

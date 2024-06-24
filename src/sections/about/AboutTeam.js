@@ -18,7 +18,6 @@ import { MotionViewport, varFade } from '../../components/animate';
 
 export default function AboutTeam() {
   const carouselRef = useRef(null);
-
   const theme = useTheme();
 
   const settings = {
@@ -70,7 +69,8 @@ export default function AboutTeam() {
           sx={{
             mx: 'auto',
             maxWidth: 630,
-            color: (theme) => (theme.palette.mode === 'light' ? 'text.secondary' : 'common.white'),
+            mb: 6,
+            color: theme.palette.mode === 'light' ? 'text.secondary' : 'common.white',
           }}
         >
           Our dedicated team is here to support you with any issues you may have. Expect a response within a day, along
@@ -79,23 +79,21 @@ export default function AboutTeam() {
       </m.div>
 
       <Box>
-        <Box component={m.div} variants={varFade().in} sx={{ px: 1.5, py: 10, mb: 10 }}>
-          <Card sx={{ p: 1 }}>
+        <Box component={m.div} variants={varFade().in} sx={{ px: 1.5, py: 5 }}>
+          <Card sx={{ p: 3, maxWidth: 345, mx: 'auto' }}>
+            <Image
+              alt="Divyesh"
+              src="https://avatars.githubusercontent.com/u/74129812?s=400&u=0a526e466bc8ebe3563e038c3631e4cbc7728922&v=4"
+              ratio="1/1"
+              sx={{ borderRadius: 1.5, mb: 2 }}
+            />
             <Typography variant="subtitle1" sx={{ mt: 2, mb: 0.5 }}>
               Mavadiya Divyesh
             </Typography>
             <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary' }}>
-              Software Engineer{' '}
+              Software Engineer
             </Typography>
-            <Image
-              alt={'Divyesh'}
-              src={
-                'https://avatars.githubusercontent.com/u/74129812?s=400&u=0a526e466bc8ebe3563e038c3631e4cbc7728922&v=4'
-              }
-              ratio="1/1"
-              sx={{ borderRadius: 1.5 }}
-            />
-            <Stack alignItems="center" sx={{ mt: 2, mb: 1 }}>
+            <Stack alignItems="center" sx={{ mt: 2 }}>
               <SocialsButton sx={{ color: 'action.active' }} />
             </Stack>
           </Card>
