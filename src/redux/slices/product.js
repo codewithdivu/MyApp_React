@@ -364,3 +364,19 @@ export function decrementProductQuantity(productId) {
     }
   };
 }
+
+// empty cart
+
+export function emptyCart() {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axiosInstance.delete(apiRoutes.CART.CART_EMPTY);
+      console.log('emptyCart :>> ', response);
+      dispatch(slice.actions.resetCart());
+      dispatch(slice.actions.setLoader(false));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}

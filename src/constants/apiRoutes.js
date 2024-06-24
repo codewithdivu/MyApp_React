@@ -33,5 +33,6 @@ export const apiRoutes = {
     REMOVE_CART: '/cart',
     CART_INCREMENT: '/cart/increment',
     CART_DECREMENT: '/cart/decrement',
+    CART_EMPTY: '/cart/empty',
   },
 };

@@ -1,8 +1,8 @@
 {
-  "name": "tpc",
+  "name": "MyApp",
   "author": "tpc",
   "version": "3.3.0",
-  "description": "TPC",
+  "description": "MYAPP",
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",

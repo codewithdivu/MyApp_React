@@ -5,9 +5,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { Grid, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { useNavigate } from 'react-router';
 // redux
 import { useDispatch, useSelector } from '../../../../redux/store';
-import { onGotoStep, onBackStep, onNextStep, applyShipping } from '../../../../redux/slices/product';
+import { onGotoStep, onBackStep, onNextStep, applyShipping, emptyCart } from '../../../../redux/slices/product';
 // components
 import Iconify from '../../../../components/Iconify';
 import { FormProvider } from '../../../../components/hook-form';
@@ -16,6 +17,7 @@ import CheckoutSummary from './CheckoutSummary';
 import CheckoutDelivery from './CheckoutDelivery';
 import CheckoutBillingInfo from './CheckoutBillingInfo';
 import CheckoutPaymentMethods from './CheckoutPaymentMethods';
+import { PATH_DASHBOARD } from '../../../../routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -64,6 +66,7 @@ const CARDS_OPTIONS = [
 
 export default function CheckoutPayment() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { checkout } = useSelector((state) => state.product);
 
@@ -106,7 +109,9 @@ export default function CheckoutPayment() {
 
   const onSubmit = async () => {
     try {
+      await dispatch(emptyCart());
       handleNextStep();
+      navigate(PATH_DASHBOARD.general.products);
     } catch (error) {
       console.error(error);
     }
