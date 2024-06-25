@@ -2,7 +2,6 @@ import { Suspense, lazy } from 'react';
 import { Navigate, useRoutes, useLocation, Outlet } from 'react-router-dom';
 // layouts
 import { USER_ROLES } from '../constants/keywords';
-import useAuth from '../hooks/useAuth';
 import DashboardLayout from '../layouts/dashboard';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 import MainLayout from '../layouts/main';
@@ -13,7 +12,6 @@ import RoleBasedGuard from '../guards/RoleBasedGuard';
 import { PATH_AFTER_LOGIN } from '../config';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-import { PATH_DASHBOARD } from './paths';
 
 // ----------------------------------------------------------------------
 
@@ -29,8 +27,6 @@ const Loadable = (Component) => (props) => {
 };
 
 export default function Router() {
-  const { user } = useAuth();
-
   const LANDING_ROUTE = PATH_AFTER_LOGIN;
   return useRoutes([
     // Auth Routes

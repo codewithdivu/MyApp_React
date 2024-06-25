@@ -1,23 +1,17 @@
 /* eslint-disable consistent-return */
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router';
-
 import { useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Stack, IconButton, InputAdornment, Alert, MenuItem, FormHelperText } from '@mui/material';
+import { Stack, IconButton, InputAdornment, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { useSnackbar } from 'notistack';
-import { ROLES, USER_STATUS } from '../../../constants/keywords';
-import useFirebaseData from '../../../hooks/useFirebaseData';
-import { FIREBASE_COLLECTIONS } from '../../../constants/collections';
-import { FIREBASE_OPERATORS } from '../../../constants/operators';
-import { BOARDS, STATES, CLASSES, DESIGNATIONS } from '../../../constants/attributes';
 import useAuth from '../../../hooks/useAuth';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 import Iconify from '../../../components/Iconify';
-import { FormProvider, RHFTextField, RHFRadioInput, RHFSelectInput } from '../../../components/hook-form';
-import { PATH_AUTH, PATH_DASHBOARD } from '../../../routes/paths';
+import { FormProvider, RHFTextField } from '../../../components/hook-form';
+import { PATH_AUTH } from '../../../routes/paths';
 
 export default function RegisterForm() {
   const navigate = useNavigate();
@@ -53,9 +47,6 @@ export default function RegisterForm() {
     resolver: yupResolver(RegisterSchema),
     defaultValues,
   });
-  const { data } = useFirebaseData(FIREBASE_COLLECTIONS.schools, [
-    { property: 'isActive', operator: FIREBASE_OPERATORS.EQUAL_TO, value: true },
-  ]);
 
   // Constants
   const {

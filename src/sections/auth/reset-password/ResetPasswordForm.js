@@ -9,13 +9,10 @@ import { useForm } from 'react-hook-form';
 import { Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hooks
-import { sendPasswordResetEmail } from 'firebase/auth';
 import { useSnackbar } from 'notistack';
-import { AUTH } from '../../../contexts/FirebaseContext';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 // components
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
-import { getAuthErrorMessage } from '../../../utils/mics';
 import axiosInstance from '../../../utils/axios';
 import { apiRoutes } from '../../../constants/apiRoutes';
 import { PATH_AUTH } from '../../../routes/paths';

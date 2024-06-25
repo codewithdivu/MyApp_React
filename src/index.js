@@ -25,6 +25,7 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
 import 'react-lazy-load-image-component/src/effects/black-and-white.css';
 
+// react-dom
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
@@ -40,15 +41,8 @@ import { store, persistor } from './redux/store';
 import { SettingsProvider } from './contexts/SettingsContext';
 import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 
-// Check our docs
-// https://docs-minimals.vercel.app/authentication/ts-version
 
 import { AuthProvider } from './contexts/JWTContext';
-// import { AuthProvider } from './contexts/Auth0Context';
-// import { AuthProvider } from './contexts/FirebaseContext';
-// import { AuthProvider } from './contexts/AwsCognitoContext';
-
-//
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';

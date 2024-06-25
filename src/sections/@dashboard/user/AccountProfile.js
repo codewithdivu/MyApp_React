@@ -6,21 +6,14 @@ import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Box, Grid, Card, Stack, Typography, MenuItem } from '@mui/material';
+import { Box, Grid, Card, Stack, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hooks
 import useAuth from '../../../hooks/useAuth';
 // utils
 import { fData } from '../../../utils/formatNumber';
 // components
-import {
-  FormProvider,
-  RHFSwitch,
-  RHFSelect,
-  RHFTextField,
-  RHFUploadAvatar,
-  RHFSelectInput,
-} from '../../../components/hook-form';
+import { FormProvider, RHFTextField, RHFUploadAvatar } from '../../../components/hook-form';
 // constants
 import { PATH_DASHBOARD } from '../../../routes/paths';
 import { apiRoutes } from '../../../constants/apiRoutes';
@@ -59,7 +52,7 @@ export default function AccountProfile() {
   const {
     setValue,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = methods;
 
   const onSubmit = async (data) => {
@@ -79,6 +72,8 @@ export default function AccountProfile() {
         username,
         photoURL: profilePic,
       });
+
+      navigate(PATH_DASHBOARD.general.app);
 
       enqueueSnackbar('Updated success!');
     } catch (error) {

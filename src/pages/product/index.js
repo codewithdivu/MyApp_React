@@ -25,7 +25,7 @@ import { SkeletonProductItem } from '../../components/skeleton';
 import Page from '../../components/Page';
 // sections
 import CartWidget from '../../sections/@dashboard/e-commerce/CartWidget';
-import { ShopProductCard, ShopProductSort } from '../../sections/@dashboard/e-commerce/shop'; // Removed ShopProductSearch
+import { ShopProductCard } from '../../sections/@dashboard/e-commerce/shop';
 
 const ProductList = () => {
   const { themeStretch } = useSettings();

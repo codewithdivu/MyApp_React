@@ -4,7 +4,7 @@ import { Divider } from '@mui/material';
 // components
 import Page from '../components/Page';
 // sections
-import { AboutHero, AboutWhat, AboutTeam, AboutVision, AboutTestimonials } from '../sections/about';
+import { AboutHero, AboutTeam, AboutVision } from '../sections/about';
 
 // ----------------------------------------------------------------------
 

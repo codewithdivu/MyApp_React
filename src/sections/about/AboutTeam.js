@@ -1,54 +1,16 @@
-import PropTypes from 'prop-types';
 import { m } from 'framer-motion';
-import { useRef } from 'react';
-import Slider from 'react-slick';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Box, Stack, Card, Button, Container, Typography } from '@mui/material';
-// _mock_
-import { _carouselsMembers } from '../../_mock';
+import { Box, Stack, Card, Container, Typography } from '@mui/material';
 // components
 import Image from '../../components/Image';
-import Iconify from '../../components/Iconify';
-import { CarouselArrows } from '../../components/carousel';
 import SocialsButton from '../../components/SocialsButton';
 import { MotionViewport, varFade } from '../../components/animate';
 
 // ----------------------------------------------------------------------
 
 export default function AboutTeam() {
-  const carouselRef = useRef(null);
   const theme = useTheme();
-
-  const settings = {
-    arrows: false,
-    slidesToShow: 4,
-    centerMode: true,
-    centerPadding: '0px',
-    rtl: Boolean(theme.direction === 'rtl'),
-    responsive: [
-      {
-        breakpoint: 1279,
-        settings: { slidesToShow: 3 },
-      },
-      {
-        breakpoint: 959,
-        settings: { slidesToShow: 2 },
-      },
-      {
-        breakpoint: 600,
-        settings: { slidesToShow: 1 },
-      },
-    ],
-  };
-
-  const handlePrevious = () => {
-    carouselRef.current?.slickPrev();
-  };
-
-  const handleNext = () => {
-    carouselRef.current?.slickNext();
-  };
 
   return (
     <Container component={MotionViewport} sx={{ pb: 10, textAlign: 'center' }}>

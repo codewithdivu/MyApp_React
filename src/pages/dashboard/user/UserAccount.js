@@ -4,7 +4,6 @@ import { Container, Tab, Box, Tabs } from '@mui/material';
 import { capitalCase } from 'change-case';
 // hooks
 import useSettings from '../../../hooks/useSettings';
-import useTabs from '../../../hooks/useTabs';
 // constants
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
@@ -16,8 +15,6 @@ import AccountProfile from '../../../sections/@dashboard/user/AccountProfile';
 
 export default function UserAccount() {
   const { themeStretch } = useSettings();
-
-  const { currentTab, onChangeTab } = useTabs('general');
 
   return (
     <Page title="User: Account">
