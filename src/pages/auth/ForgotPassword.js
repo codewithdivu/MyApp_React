@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
@@ -11,10 +10,6 @@ import { PATH_AUTH } from '../../routes/paths';
 import Page from '../../components/Page';
 // sections
 import { ResetPasswordForm } from '../../sections/auth/reset-password';
-// assets
-import { SentIcon } from '../../assets';
-
-// ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -36,8 +31,8 @@ export default function ForgotPassword() {
               Forgot your password?
             </Typography>
             <Typography sx={{ color: 'text.secondary', mb: 5 }}>
-              Please enter the email address associated with your account and We will email you a link to reset your
-              password.
+              Please enter the email address associated with your account and We will email you a 6 digit OTP to reset
+              your password.
             </Typography>
 
             <ResetPasswordForm />

@@ -84,13 +84,7 @@ export default function Register() {
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
               Sign up with MyApp
             </Typography>
-            <Image
-              visibleByDefault
-              disabledEffect
-              alt="register"
-              // src="https://minimals.cc/assets/illustrations/illustration_dashboard.png"
-              src="/images/illustration_register.jpg"
-            />
+            <Image visibleByDefault disabledEffect alt="register" src="/images/illustration_register.jpg" />
           </SectionStyle>
         )}
 
@@ -107,7 +101,7 @@ export default function Register() {
             <RegisterForm />
 
             <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
-              By registering, I agree to QP Curator&nbsp;
+              By registering, I agree to MyApp&nbsp;
               <Link underline="always" color="text.primary" href="#">
                 Terms of Service
               </Link>{' '}

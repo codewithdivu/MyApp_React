@@ -47,12 +47,8 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 
 const ResetPassword = () => {
   const navigate = useNavigate();
-  const theme = useTheme();
-  const mdUp = useMediaQuery(theme.breakpoints.up('md'));
-  const smUp = useMediaQuery(theme.breakpoints.up('sm'));
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
   const validationSchema = yup.object().shape({
@@ -84,7 +80,6 @@ const ResetPassword = () => {
   };
 
   const {
-    reset,
     setValue,
     control,
     register,
@@ -151,7 +146,7 @@ const ResetPassword = () => {
             Request sent successfully!
           </Typography>
           <Typography sx={{ color: 'text.secondary', mb: 5 }}>
-            We've sent a 6-digit confirmation email to your email. Please enter the code in below box to verify your
+            We've sent a 6-digit confirmation OTP to your email. Please enter the code in below box to verify your
             email.
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
