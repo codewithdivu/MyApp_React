@@ -28,8 +28,8 @@ const DELIVERY_OPTIONS = [
     description: 'Delivered on Monday, August 12',
   },
   {
-    value: 2,
-    title: 'Fast delivery ($2,00)',
+    value: 40,
+    title: 'Fast delivery (₹40,00)',
     description: 'Delivered on Monday, August 5',
   },
 ];
@@ -59,9 +59,9 @@ const PAYMENT_OPTIONS = [
 ];
 
 const CARDS_OPTIONS = [
-  { value: 'ViSa1', label: '**** **** **** 1212 - Divyesh Mavadiya' },
-  { value: 'ViSa2', label: '**** **** **** 2424 - Milan Mavadiya' },
-  { value: 'MasterCard', label: '**** **** **** 4545 - Varsh Mavadiya' },
+  { value: 'Visa', label: '**** **** **** 1212 - Divyesh Mavadiya' },
+  { value: 'Rupay', label: '**** **** **** 2424 - Milan Mavadiya' },
+  { value: 'MasterCard', label: '**** **** **** 4545 - Varsha Mavadiya' },
 ];
 
 export default function CheckoutPayment() {

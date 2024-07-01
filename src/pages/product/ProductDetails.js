@@ -1,5 +1,5 @@
 // react && redux
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { useSnackbar } from 'notistack';
@@ -23,11 +23,10 @@ import {
 import { useForm } from 'react-hook-form';
 import useSettings from '../../hooks/useSettings';
 // components
-import { addCart, addProductToCart, fetchCart, getProduct, getProducts } from '../../redux/slices/product';
+import { addProductToCart, fetchCart, getProduct } from '../../redux/slices/product';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import { SkeletonProduct } from '../../components/skeleton';
 import { FormProvider } from '../../components/hook-form';
-import Markdown from '../../components/Markdown';
 import Iconify from '../../components/Iconify';
 import Label from '../../components/Label';
 import Page from '../../components/Page';
@@ -139,7 +138,7 @@ const ProductDetails = () => {
       }
       await dispatch(addProductToCart(product?._id, values?.quantity));
       enqueueSnackbar('Product added successfully.');
-      navigate(PATH_DASHBOARD.general.checkout);
+      // navigate(PATH_DASHBOARD.general.checkout);
     } catch (error) {
       console.error(error);
       enqueueSnackbar(error?.msg, {
@@ -197,7 +196,7 @@ const ProductDetails = () => {
                       </Stack>
 
                       <Typography variant="h4" sx={{ mb: 3 }}>
-                        &nbsp;{fCurrency(product?.price)}
+                        &nbsp;₹{fCurrency(product?.price)}
                       </Typography>
 
                       <Divider sx={{ borderStyle: 'dashed' }} />

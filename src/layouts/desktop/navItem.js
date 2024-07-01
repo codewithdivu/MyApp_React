@@ -12,33 +12,43 @@ import Iconify from '../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
-export const NavItem = forwardRef(({ title, path, open, active, hasChild, externalLink, subItem, ...other }, ref) => {
-  const renderContent = (
-    <StyledNavItem disableRipple disableTouchRipple ref={ref} open={open} active={active} subItem={subItem} {...other}>
-      {title}
+export const NavItem = forwardRef(
+  ({ title, path, open, active, hasChild, externalLink, subItem, theme, ...other }, ref) => {
+    const renderContent = (
+      <StyledNavItem
+        disableRipple
+        disableTouchRipple
+        ref={ref}
+        open={open}
+        active={active}
+        subItem={subItem}
+        {...other}
+      >
+        {title}
 
-      {hasChild && <Iconify width={16} icon="eva:arrow-ios-downward-fill" sx={{ ml: 1 }} />}
-    </StyledNavItem>
-  );
+        {hasChild && <Iconify width={16} icon="eva:arrow-ios-downward-fill" sx={{ ml: 1 }} />}
+      </StyledNavItem>
+    );
 
-  if (hasChild) {
-    return renderContent;
-  }
+    if (hasChild) {
+      return renderContent;
+    }
 
-  if (externalLink) {
+    if (externalLink) {
+      return (
+        <Link href={path} target="_blank" rel="noopener" color={theme.secondary} underline="none">
+          {renderContent}
+        </Link>
+      );
+    }
+
     return (
-      <Link href={path} target="_blank" rel="noopener" color="black" underline="none">
+      <Link component={Link} href={path} color={theme.secondary} underline="none">
         {renderContent}
       </Link>
     );
   }
-
-  return (
-    <Link component={Link} href={path} color="black" underline="none">
-      {renderContent}
-    </Link>
-  );
-});
+);
 
 NavItem.propTypes = {
   title: PropTypes.string,

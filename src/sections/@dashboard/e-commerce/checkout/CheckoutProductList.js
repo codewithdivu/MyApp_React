@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 // @mui
 import { styled } from '@mui/material/styles';
@@ -27,6 +28,7 @@ import useIsMountedRef from '../../../../hooks/useIsMountedRef';
 import { getProducts } from '../../../../redux/slices/product';
 import axiosInstance from '../../../../utils/axios';
 import { apiRoutes } from '../../../../constants/apiRoutes';
+import { PATH_DASHBOARD } from '../../../../routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -50,6 +52,7 @@ CheckoutProductList.propTypes = {
 };
 
 export default function CheckoutProductList({ products, onDelete, onIncreaseQuantity, onDecreaseQuantity }) {
+  const navigate = useNavigate();
   const [realProducts, setRealProducts] = useState([]);
   useEffect(() => {
     const fetchProducts = async () => {
@@ -87,7 +90,12 @@ export default function CheckoutProductList({ products, onDelete, onIncreaseQuan
                 console.log('product :>> ', product);
                 return (
                   <TableRow key={_id}>
-                    <TableCell>
+                    <TableCell
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => {
+                        navigate(PATH_DASHBOARD.general.product(_id));
+                      }}
+                    >
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Image
                           alt="product image"
@@ -102,7 +110,7 @@ export default function CheckoutProductList({ products, onDelete, onIncreaseQuan
                       </Box>
                     </TableCell>
 
-                    <TableCell align="left">{fCurrency(price)}</TableCell>
+                    <TableCell align="left">₹{fCurrency(price)}</TableCell>
 
                     <TableCell align="left">
                       <Incrementer
@@ -113,7 +121,7 @@ export default function CheckoutProductList({ products, onDelete, onIncreaseQuan
                       />
                     </TableCell>
 
-                    <TableCell align="right">{fCurrency(price * quantity)}</TableCell>
+                    <TableCell align="right">₹{fCurrency(price * quantity)}</TableCell>
 
                     <TableCell align="right">
                       <IconButton onClick={() => onDelete(_id)}>

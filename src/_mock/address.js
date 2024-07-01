@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------
 
 export const fullAddress = [
-  '19034 Verna Unions Apt. 164 - Honolulu, RI / 87535',
+  'Panchavati Circle, Saffron Tower. 9th floor - Ahmedabad, Gujarat / 360001',
   '1147 Rohan Drive Suite 819 - Burlington, VT / 82021',
   '18605 Thompson Circle Apt. 086 - Idaho Falls, WV / 50337',
   '110 Lamar Station Apt. 730 - Hagerstown, OK / 49808',
@@ -40,7 +40,7 @@ export const fullAddress = [
   '1795 Kilback Stravenue Apt. 745 - Concord, MA / 96099',
   '831 Rolfson Expressway Apt. 878 - Norman, NY / 10239',
   '909 Nathaniel Lake Suite 769 - Sherman, NJ / 46523',
-  '3690 Hans Ports Apt. 369 - Cary, KS / 48930'
+  '3690 Hans Ports Apt. 369 - Cary, KS / 48930',
 ];
 
 export const country = [
@@ -83,5 +83,5 @@ export const country = [
   'Canada',
   'Turkey',
   'Samoa',
-  'Vietnam'
+  'Vietnam',
 ];

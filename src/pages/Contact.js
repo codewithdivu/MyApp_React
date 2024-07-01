@@ -4,8 +4,15 @@ import { styled } from '@mui/material/styles';
 import { Box, TextField, Button, Typography, Checkbox, Grid, FormControlLabel, Container } from '@mui/material';
 
 // components
+
+// react-hook-form and yup
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useSnackbar } from 'notistack';
+import { LoadingButton } from '@mui/lab';
+import * as yup from 'yup';
 import Page from '../components/Page';
-import AboutHero from '../sections/about/AboutHero';
+import { AboutHero } from '../sections/about';
 
 // ----------------------------------------------------------------------
 
@@ -16,79 +23,121 @@ const RootStyle = styled('div')(({ theme }) => ({
   },
 }));
 
+// Validation schema
+const schema = yup.object().shape({
+  subject: yup.string().required('Subject is required'),
+  name: yup.string().required('Name is required'),
+  email: yup.string().email('Email must be a valid email').required('Email is required'),
+  message: yup.string().required('Message is required'),
+});
+
 // ----------------------------------------------------------------------
 
 export default function Contact() {
-  const [subject, setSubject] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [isNotRobot, setIsNotRobot] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log({
-      subject,
-      name,
-      email,
-      message,
-      isNotRobot,
-    });
+  const {
+    reset,
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log(data);
+    enqueueSnackbar('Detail sent successfully.');
+    reset();
   };
 
   return (
     <Page title="Contact us">
       <RootStyle>
-        {/* <ContactHero /> */}
         <AboutHero />
 
         <Container sx={{ my: 10 }}>
           <Grid container spacing={10}>
             <Grid item xs={12} md={6}>
-              {/* <ContactForm /> */}
               <h1>Contact Us</h1>
               <img src="/images/contact.gif" alt="contact" />
             </Grid>
             <Grid item xs={12} md={6}>
-              <form onSubmit={handleSubmit}>
-                <TextField
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Controller
+                  name="subject"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      label="Subject"
+                      margin="normal"
+                      error={!!errors.subject}
+                      helperText={errors.subject ? errors.subject.message : ''}
+                    />
+                  )}
+                />
+                <Controller
+                  name="name"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      label="Name"
+                      margin="normal"
+                      error={!!errors.name}
+                      helperText={errors.name ? errors.name.message : ''}
+                    />
+                  )}
+                />
+                <Controller
+                  name="email"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      label="Email"
+                      margin="normal"
+                      error={!!errors.email}
+                      helperText={errors.email ? errors.email.message : ''}
+                    />
+                  )}
+                />
+                <Controller
+                  name="message"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      label="Enter your message here..."
+                      margin="normal"
+                      multiline
+                      rows={4}
+                      error={!!errors.message}
+                      helperText={errors.message ? errors.message.message : ''}
+                    />
+                  )}
+                />
+
+                <LoadingButton
+                  sx={{ marginTop: '2rem' }}
+                  loading={isSubmitting}
+                  variant="contained"
+                  color="primary"
+                  type="submit"
                   fullWidth
-                  label="Subject"
-                  margin="normal"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                />
-                <TextField
-                  fullWidth
-                  label="Name"
-                  margin="normal"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-                <TextField
-                  fullWidth
-                  label="Email"
-                  margin="normal"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <TextField
-                  fullWidth
-                  label="Enter your message here..."
-                  margin="normal"
-                  multiline
-                  rows={4}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={isNotRobot} onChange={(e) => setIsNotRobot(e.target.checked)} />}
-                  label="I'm not a robot"
-                />
-                <Button variant="contained" color="primary" type="submit" fullWidth>
+                >
                   Submit
-                </Button>
+                </LoadingButton>
               </form>
             </Grid>
           </Grid>

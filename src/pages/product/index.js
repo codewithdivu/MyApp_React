@@ -13,7 +13,7 @@ import {
   MenuItem,
   Checkbox,
   FormControlLabel,
-} from '@mui/material'; // Import components from Material-UI
+} from '@mui/material';
 // hooks
 import useSettings from '../../hooks/useSettings';
 // constants
@@ -33,9 +33,17 @@ const ProductList = () => {
   const { products: allProducts, isLoading } = useSelector((state) => state.product);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [sortOption, setSortOption] = useState(''); // State for sorting option
-  const [categoryFilter, setCategoryFilter] = useState(''); // State for category filter
-  const [inStockOnly, setInStockOnly] = useState(false); // State for in stock filter
+  const [sortOption, setSortOption] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('');
+  const [inStockOnly, setInStockOnly] = useState(false);
+
+  const { checkout } = useSelector((state) => state.product);
+  const { cart } = checkout;
+
+  const findCartItem = (id) => {
+    const cartItem = cart?.find((item) => item?._id === id);
+    return cartItem?.quantity || 0;
+  };
 
   useEffect(() => {
     dispatch(getProducts());
@@ -162,7 +170,9 @@ const ProductList = () => {
           {isLoading ? (
             <SkeletonProductItem />
           ) : (
-            filteredProducts.map((product) => <ShopProductCard key={product.id} product={product} />)
+            filteredProducts.map((product, index) => (
+              <ShopProductCard key={index} product={product} inCart={findCartItem(product?._id)} />
+            ))
           )}
         </Box>
         <CartWidget />

@@ -1,13 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import sum from 'lodash/sum';
-import uniqBy from 'lodash/uniqBy';
-// utils
-//
 import { dispatch } from '../store';
 import axiosInstance from '../../utils/axios';
 import { apiRoutes } from '../../constants/apiRoutes';
-
-// ----------------------------------------------------------------------
 
 const initialState = {
   isLoading: false,
@@ -31,6 +26,7 @@ const initialState = {
     shipping: 0,
     billing: null,
   },
+  isDiscountApplied: false,
 };
 
 const slice = createSlice({
@@ -86,7 +82,6 @@ const slice = createSlice({
       const discount = cart.length === 0 ? 0 : state.checkout.discount;
       const shipping = cart.length === 0 ? 0 : state.checkout.shipping;
       const billing = cart.length === 0 ? null : state.checkout.billing;
-
       state.checkout.cart = cart;
       state.checkout.discount = discount;
       state.checkout.shipping = shipping;
@@ -95,28 +90,12 @@ const slice = createSlice({
       state.checkout.total = subtotal - discount;
     },
 
+    // ADD TO CART
     addCart(state, action) {
-      const product = action.payload;
-      const isEmptyCart = state.checkout.cart.length === 0;
       state.checkout.cart = action.payload;
-
-      // if (isEmptyCart) {
-      //   state.checkout.cart = [...state.checkout.cart, product];
-      // } else {
-      //   state.checkout.cart = state.checkout.cart.map((_product) => {
-      //     const isExisted = _product._id === product._id;
-      //     if (isExisted) {
-      //       return {
-      //         ..._product,
-      //         quantity: _product.quantity + 1,
-      //       };
-      //     }
-      //     return _product;
-      //   });
-      // }
-      // state.checkout.cart = uniqBy([...state.checkout.cart, product], '_id');
     },
 
+    // DELETE FROM CART
     deleteCart(state, action) {
       const updateCart = state.checkout.cart.filter((item) => item._id !== action.payload);
 
@@ -135,6 +114,7 @@ const slice = createSlice({
       state.checkout.cart = updateCart;
     },
 
+    // RESET CART
     resetCart(state) {
       state.checkout.activeStep = 0;
       state.checkout.cart = [];
@@ -145,19 +125,23 @@ const slice = createSlice({
       state.checkout.billing = null;
     },
 
+    // BACK TO PREVIOUSE STEP
     onBackStep(state) {
       state.checkout.activeStep -= 1;
     },
 
+    // MOVE TO NEXT STEP
     onNextStep(state) {
       state.checkout.activeStep += 1;
     },
 
+    // MOVE TO PARTICULAR STEP
     onGotoStep(state, action) {
       const goToStep = action.payload;
       state.checkout.activeStep = goToStep;
     },
 
+    // INCREASE PRODUCT QUANTITY
     increaseQuantity(state, action) {
       const productId = action.payload;
       const updateCart = state.checkout.cart.map((product) => {
@@ -185,6 +169,7 @@ const slice = createSlice({
       state.checkout.cart = updateCart;
     },
 
+    // DECREASE PRODUCT QUANTITY
     decreaseQuantity(state, action) {
       const productId = action.payload;
       const updateCart = state.checkout.cart.map((product) => {
@@ -212,16 +197,26 @@ const slice = createSlice({
       state.checkout.cart = updateCart;
     },
 
+    // CREATING BILLING
     createBilling(state, action) {
       state.checkout.billing = action.payload;
     },
 
+    // APPLY DISCOUNT
     applyDiscount(state, action) {
       const discount = action.payload;
       state.checkout.discount = discount;
       state.checkout.total = state.checkout.subtotal - discount;
+      state.isDiscountApplied = true;
     },
 
+    // REVOKE DISCOUNT
+    revokeDiscount(state, action) {
+      state.checkout.total = state.checkout.subtotal;
+      state.isDiscountApplied = false;
+    },
+
+    // APPLY SHIPPING
     applyShipping(state, action) {
       const shipping = action.payload;
       state.checkout.shipping = shipping;
@@ -244,6 +239,7 @@ export const {
   deleteCart,
   createBilling,
   applyShipping,
+  revokeDiscount,
   applyDiscount,
   increaseQuantity,
   decreaseQuantity,
@@ -252,7 +248,6 @@ export const {
 } = slice.actions;
 
 // get Products
-
 export function getProducts() {
   return async () => {
     dispatch(slice.actions.startLoading());
@@ -266,7 +261,6 @@ export function getProducts() {
 }
 
 // get Product by id
-
 export function getProduct(id) {
   return async () => {
     dispatch(slice.actions.startLoading());
@@ -282,7 +276,6 @@ export function getProduct(id) {
 }
 
 // add to cart
-
 export function addProductToCart(productId, quantity = 1) {
   return async () => {
     dispatch(slice.actions.startLoading());
@@ -291,7 +284,6 @@ export function addProductToCart(productId, quantity = 1) {
         productId,
         quantity,
       });
-      console.log('response----- :>> ', response);
       dispatch(slice.actions.addCart(response.data.data.items));
       dispatch(slice.actions.setLoader(false));
     } catch (error) {
@@ -301,12 +293,11 @@ export function addProductToCart(productId, quantity = 1) {
 }
 
 // remove cart
-
 export function removeProductFromCart(productId) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axiosInstance.delete(apiRoutes.CART.REMOVE_CART, {
+      await axiosInstance.delete(apiRoutes.CART.REMOVE_CART, {
         data: {
           productId,
         },
@@ -320,13 +311,11 @@ export function removeProductFromCart(productId) {
 }
 
 // fetch cart
-
 export function fetchCart() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axiosInstance.get(apiRoutes.CART.GET_CART);
-      console.log('response :>> ', response);
       dispatch(slice.actions.getCart(response.data.data.items));
       dispatch(slice.actions.setLoader(false));
     } catch (error) {
@@ -336,12 +325,11 @@ export function fetchCart() {
 }
 
 // increment quantity
-
 export function incrementProductQuantity(productId) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axiosInstance.post(apiRoutes.CART.CART_INCREMENT, { productId });
+      await axiosInstance.post(apiRoutes.CART.CART_INCREMENT, { productId });
       dispatch(slice.actions.increaseQuantity(productId));
       dispatch(slice.actions.setLoader(false));
     } catch (error) {
@@ -351,12 +339,11 @@ export function incrementProductQuantity(productId) {
 }
 
 // decrement quantity
-
 export function decrementProductQuantity(productId) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axiosInstance.post(apiRoutes.CART.CART_DECREMENT, { productId });
+      await axiosInstance.post(apiRoutes.CART.CART_DECREMENT, { productId });
       dispatch(slice.actions.decreaseQuantity(productId));
       dispatch(slice.actions.setLoader(false));
     } catch (error) {
@@ -366,13 +353,11 @@ export function decrementProductQuantity(productId) {
 }
 
 // empty cart
-
 export function emptyCart() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axiosInstance.delete(apiRoutes.CART.CART_EMPTY);
-      console.log('emptyCart :>> ', response);
+      await axiosInstance.delete(apiRoutes.CART.CART_EMPTY);
       dispatch(slice.actions.resetCart());
       dispatch(slice.actions.setLoader(false));
     } catch (error) {

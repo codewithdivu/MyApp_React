@@ -13,15 +13,12 @@ import { fCurrency } from '../../../../utils/formatNumber';
 // components
 import Label from '../../../../components/Label';
 import Image from '../../../../components/Image';
-import { ColorPreview } from '../../../../components/color-utils';
-
-// ----------------------------------------------------------------------
 
 ShopProductCard.propTypes = {
   product: PropTypes.object,
 };
 
-export default function ShopProductCard({ product }) {
+export default function ShopProductCard({ product, inCart }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const { name, cover, price, inStock: status, _id } = product;
@@ -38,11 +35,36 @@ export default function ShopProductCard({ product }) {
     }
   };
 
+  // const label = status ? (inCart <= product?.quantity ? 'InStock' : 'OutofStock') : 'OutofStock';
+
+  console.log('product?.quantity', product?.quantity);
+  console.log('inCart', inCart);
+
+  const labelFind = () => {
+    if (status) {
+      if (inCart < product?.quantity) {
+        return 'InStock';
+      }
+      return 'OutofStock';
+    }
+    return 'OutofStock';
+  };
+  const labelColorFind = () => {
+    if (status) {
+      if (inCart < product?.quantity) {
+        return 'info';
+      }
+      return 'error';
+    }
+    return 'error';
+  };
+
   return (
     <Card>
       <Box sx={{ position: 'relative' }}>
         <Label
           variant="filled"
+          // color={labelColorFind()}
           color={status ? 'info' : 'error'}
           sx={{
             top: 16,
@@ -53,6 +75,7 @@ export default function ShopProductCard({ product }) {
           }}
         >
           {status ? 'InStock' : 'OutofStock'}
+          {/* {labelFind()} */}
         </Label>
 
         <Link to={linkTo} color="inherit" component={RouterLink}>
@@ -68,11 +91,15 @@ export default function ShopProductCard({ product }) {
         </Link>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Button onClick={() => handleAddCart(_id)} disabled={!product?.inStock}>
+          <Button
+            // variant="outlined"
+            onClick={() => handleAddCart(_id)}
+            disabled={!product?.inStock || inCart >= product?.quantity}
+          >
             Add To Cart
           </Button>
           <Stack direction="row" spacing={0.5}>
-            <Typography variant="subtitle1">{fCurrency(price)}</Typography>
+            <Typography variant="subtitle1">₹{fCurrency(price)}</Typography>
           </Stack>
         </Stack>
       </Stack>

@@ -27,6 +27,7 @@ CheckoutSummary.propTypes = {
   onEdit: PropTypes.func,
   enableEdit: PropTypes.bool,
   onApplyDiscount: PropTypes.func,
+  onRemoveDiscount: PropTypes.func,
   enableDiscount: PropTypes.bool,
 };
 
@@ -37,8 +38,10 @@ export default function CheckoutSummary({
   subtotal,
   shipping,
   onApplyDiscount,
+  onRemoveDiscount,
   enableEdit = false,
   enableDiscount = false,
+  isDiscountApplied,
 }) {
   const displayShipping = shipping !== null ? 'Free' : '-';
 
@@ -61,21 +64,21 @@ export default function CheckoutSummary({
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               Sub Total
             </Typography>
-            <Typography variant="subtitle2">{fCurrency(subtotal)}</Typography>
+            <Typography variant="subtitle2">₹{fCurrency(subtotal)}</Typography>
           </Stack>
 
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               Discount
             </Typography>
-            <Typography variant="subtitle2">{discount ? fCurrency(-discount) : '-'}</Typography>
+            <Typography variant="subtitle2">₹{isDiscountApplied ? fCurrency(-discount) : '-'}</Typography>
           </Stack>
 
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               Shipping
             </Typography>
-            <Typography variant="subtitle2">{shipping ? fCurrency(shipping) : displayShipping}</Typography>
+            <Typography variant="subtitle2">₹{shipping ? fCurrency(shipping) : displayShipping}</Typography>
           </Stack>
 
           <Divider />
@@ -84,7 +87,7 @@ export default function CheckoutSummary({
             <Typography variant="subtitle1">Total</Typography>
             <Box sx={{ textAlign: 'right' }}>
               <Typography variant="subtitle1" sx={{ color: 'error.main' }}>
-                {fCurrency(total)}
+                ₹{fCurrency(total)}
               </Typography>
               <Typography variant="caption" sx={{ fontStyle: 'italic' }}>
                 (VAT included if applicable)
@@ -100,9 +103,15 @@ export default function CheckoutSummary({
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <Button onClick={() => onApplyDiscount(5)} sx={{ mr: -0.5 }}>
-                      Apply
-                    </Button>
+                    {!isDiscountApplied ? (
+                      <Button onClick={() => onApplyDiscount(50)} sx={{ mr: -0.5 }}>
+                        Apply
+                      </Button>
+                    ) : (
+                      <Button color="error" onClick={() => onRemoveDiscount()} sx={{ mr: -0.5 }}>
+                        Remove
+                      </Button>
+                    )}
                   </InputAdornment>
                 ),
               }}

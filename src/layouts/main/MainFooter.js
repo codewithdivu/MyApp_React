@@ -30,7 +30,7 @@ const LINKS = [
     headline: 'Contact',
     children: [
       { name: 'myApp@gmail.com', href: '#' },
-      { name: 'Los Angeles, 359  Hidden Valley Road', href: '#' },
+      { name: 'Panchavati Circle, Saffron Tower, Ahmedabad', href: '#' },
     ],
   },
 ];
@@ -65,7 +65,7 @@ export default function MainFooter() {
               justifyContent={{ xs: 'center', md: 'flex-start' }}
               sx={{ mt: 5, mb: { xs: 5, md: 0 } }}
             >
-              <SocialsButton sx={{ mx: 0.5 }} />
+              <SocialsButton sx={{ mx: 0.5, color: 'action.active' }} />
             </Stack>
           </Grid>
 

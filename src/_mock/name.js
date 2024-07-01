@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------
 
 export const fullName = [
-  'Jayvion Simon',
+  'Divyesh Mavadiya',
   'Lucian Obrien',
   'Deja Brady',
   'Harrison Stein',
@@ -44,7 +44,7 @@ export const fullName = [
 ];
 
 export const firstName = [
-  'Mossie',
+  'Divyesh',
   'David',
   'Ebba',
   'Chester',
@@ -87,7 +87,7 @@ export const firstName = [
 ];
 
 export const lastName = [
-  'Carroll',
+  'Mavadiya',
   'Simonis',
   'Yost',
   'Hand',

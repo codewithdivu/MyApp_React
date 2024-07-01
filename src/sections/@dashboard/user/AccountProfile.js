@@ -57,7 +57,7 @@ export default function AccountProfile() {
 
   const onSubmit = async (data) => {
     try {
-      let profilePic;
+      let profilePic = '';
       if (data?.photoURL != null) {
         const formData = new FormData();
         formData.append('profilePic', data?.photoURL);

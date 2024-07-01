@@ -14,6 +14,7 @@ import {
   removeProductFromCart,
   incrementProductQuantity,
   decrementProductQuantity,
+  revokeDiscount,
 } from '../../../../redux/slices/product';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
@@ -31,7 +32,7 @@ export default function CheckoutCart() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { checkout } = useSelector((state) => state.product);
+  const { checkout, isDiscountApplied } = useSelector((state) => state.product);
 
   const { cart, total, discount, subtotal } = checkout;
 
@@ -59,6 +60,11 @@ export default function CheckoutCart() {
   const handleApplyDiscount = (value) => {
     dispatch(applyDiscount(value));
     enqueueSnackbar('Coupon Successfully Applied.');
+  };
+
+  const removeDiscount = () => {
+    dispatch(revokeDiscount());
+    enqueueSnackbar('Coupon Removed.');
   };
 
   return (
@@ -112,6 +118,8 @@ export default function CheckoutCart() {
           discount={discount}
           subtotal={subtotal}
           onApplyDiscount={handleApplyDiscount}
+          onRemoveDiscount={removeDiscount}
+          isDiscountApplied={isDiscountApplied}
         />
         <Button
           fullWidth
